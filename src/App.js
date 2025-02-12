@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
-import Navbar from "./components/NavBar";
 import Home from "./pages/Home";
+import Navbar from "./components/NavBar";
+import Login from "./pages/Login";
 import Donate from "./pages/Donate";
-import Recieve from "./pages/Recieve";
+import Receive from "./pages/Receive";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 
@@ -14,8 +15,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login/>} />
           <Route path="/donate" element={<Donate />} />
-          <Route path="/recieve" element={<Recieve />} />
+          <Route path="/receive" element={<Receive />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>

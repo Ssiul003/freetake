@@ -5,11 +5,13 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul>
-        <li><span className="brand">FreeTake</span></li>
+        <li>
+          <Link to="/" className="brand">FreeTake</Link>
+        </li>
         <div className="nav-links">
-          <li><Link to="/">Home</Link></li>
+          <li><Link to="/login">Login</Link></li>
           <li><Link to="/donate">Donate</Link></li>
-          <li><Link to="/recieve">Receive</Link></li>
+          <li><Link to="/receive">Receive</Link></li>
           <li><Link to="/about">About</Link></li>
           <li><Link to="/contact">Contact</Link></li>
         </div>
@@ -17,8 +19,5 @@ const Navbar = () => {
     </nav>
   );
 };
-
-
-
 
 export default Navbar;
