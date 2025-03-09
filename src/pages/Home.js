@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import appreciateDonation from "../images/appreciatedonationhero3.png";
 import areYouHungry from "../images/areyouhundryhero1.png";
 import grabSomeFood from "../images/grabsomefreefoodhero4.png";
-import Donate from "../pages/Donate";
+import Donate from "../pages/Donate.js";
 const Home = () => {
   const sliderSettings = {
     dots: true,
@@ -21,6 +21,7 @@ const Home = () => {
   };
 
   return (
+    <div className="home-page">
     <div className="home-container">
       <div className="slider-box">
         <Slider {...sliderSettings}>
@@ -68,6 +69,7 @@ const Home = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
