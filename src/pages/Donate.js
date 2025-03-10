@@ -53,14 +53,32 @@ const Donate = () => {
   const sliderSettings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
+    slidesToShow: donatedItems.length < 5 ? donatedItems.length : 5, // Adjust if fewer items
     slidesToScroll: 1,
     arrows: true,
-    centerMode: true, 
-    focusOnSelect: true, 
-  };
-  
-
+    centerMode: donatedItems.length > 1, // Only enable if multiple items exist
+    focusOnSelect: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };  
 
   return (
     <div className="donate-page">
