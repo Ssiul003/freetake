@@ -66,6 +66,26 @@ nav{
   font-size: 1.5em;
 }
 
+.nav-links .brand:hover, .nav-links-right li:hover{
+  color: #49E761;
+}
+
+.nav-links .brand:active, .nav-links-right li:active{
+  color: #45a049;
+}
+
+.nav-links-center li:hover{
+  color: #49E761;
+  background-color: black;
+  border-color: black;
+}
+
+.nav-links-center li:active{
+  color: #45a049;
+  background-color: black;
+  border-color: black;
+}
+
 /* Form and page styles */
 form {
   max-width: 400px;
