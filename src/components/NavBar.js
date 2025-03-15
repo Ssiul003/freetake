@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 // Navbar.js
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <ul>
-        <li>
-          <Link to="/" className="brand">FreeTake</Link>
-        </li>
+    <nav>
+      <ul className="nav-container">
         <div className="nav-links">
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/donate">Donate</Link></li>
-          <li><Link to="/receive">Receive</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/" className="brand styled-nav-link">FreeTake</Link></li>
+        </div>
+        <div className="nav-links nav-links-center">
+          <li><Link to="/receive" className='styled-nav-link'>Free Food</Link></li>
+          <li><Link to="/donate" className='styled-nav-link'>Donate</Link></li>
+        </div>
+        <div className='nav-links nav-links-right'>
+          <li><Link to="/about" className='styled-nav-link'>About</Link></li>
+          <li><Link to="/contact" className='styled-nav-link'>Contact</Link></li>
+          <li><Link to="/login" className='styled-nav-link'>Login</Link></li>
         </div>
       </ul>
     </nav>
