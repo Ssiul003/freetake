@@ -17,50 +17,53 @@
 }
 
 /* Navbar Styles */
-nav {
-  background-color: #1e40af;
-  padding: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
+nav{
+  width: 80%;
 }
 
-nav ul {
+.nav-container{
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  padding: 30px;
 }
 
-nav li {
-  font-size: 18px;
+.nav-container .nav-links li{
+  list-style-type: none;
 }
 
-/* Make FreeTake bigger and bolder */
-.brand {
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
+.nav-links-center{
+  position: absolute;
+  right: 40%;
 }
 
-/* Right-align the navbar links */
-nav .nav-links {
+@media (max-width: 1080px){
+  .nav-links-center{
+    position: static;
+  }
+}
+
+.nav-links-right, .nav-links-center{
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
 }
 
-nav a {
+.nav-links-right li, .nav-links-center li{
+  margin: 10px;
+}
+
+.nav-links-center li{
+  border: 2em;
+  border-radius: 10%;
+  padding: 5px 10px 5px 10px;
+  background-color: #49E761;
+}
+
+.styled-nav-link{
   text-decoration: none;
-  color: white;
-  padding: 8px 16px;
-}
-
-nav a:hover {
-  text-decoration: underline;
-  background-color: #2563eb;
-  border-radius: 5px;
+  font-weight: bold;
+  color: inherit;
+  font-size: 1.5em;
 }
 
 /* Form and page styles */
