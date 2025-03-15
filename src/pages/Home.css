@@ -1,15 +1,15 @@
-
 .home-page .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  width: 100%;
 }
 
 .home-page .slider-box {
   width: 100%;
   max-width: 1000px;
-  background:grey;
+  background: none;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -31,33 +31,14 @@
   font-weight: 600;
 }
 
-.home-page .text-image-section {
-  width: 90%;
-  height:100%;
-  max-width: 1000px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  margin-top: 40px;
-}
-
 .home-page .content-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  background:grey;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.home-page .content-box img {
-  width: 100%;
-  max-width: 400px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
 }
 
 .home-page .content-box p {
@@ -68,12 +49,18 @@
   font-weight: 500;
 }
 
-.home-page .donate-link p {
+.home-page .receive-link{
+  position: absolute;
+  bottom: 15%;
+  left: 10%;
+}
+
+.home-page .receive-link h2{
   display: inline-block;
-  padding: 10px 20px;
+  padding: 10px 30px 10px 30px;
   background-color: #4CAF50;
-  color: white;
-  font-size: 16px;
+  color: black;
+  font-size: 2em;
   text-align: center;
   text-decoration: none; 
   border-radius: 5px;
@@ -82,9 +69,82 @@
 }
 
 
-.home-page .donate-link p:hover {
+.home-page .receive-link h2:hover {
   background-color: #45a049; 
 }
 
+.home-content{
+  margin: 2em;
+  width: 60%;
+}
 
+.info-box{
+  display: flex;
+}
 
+.info-box img{
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.section-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2em;
+}
+
+.section-one .section-text{
+  text-align: left;
+}
+
+.section-two .section-text{
+  text-align: right;
+}
+
+.slider-box{
+  position: relative;
+}
+
+/* dots will appear within image box */
+.green-slider-dots{
+  position: absolute;
+  left: 47%;
+  bottom: 20px;
+}
+
+.green-slider-dots li{
+  display: inline-block;
+}
+
+.green-slider-dots li button{
+  margin: 0 4px 0 4px;
+  width: 15px;
+  height: 15px;
+  color: transparent;
+  border: none;
+  border-radius: 50%;
+}
+
+/* active dot will be green */
+.green-slider-dots li.slick-active button{
+  background-color: #48D998;
+}
+
+/* overwriting react-slick arrow css */
+.slick-prev{
+  left: 5%;
+  z-index: 1;
+}
+
+.slick-next{
+  right: 5%;
+  z-index: 1;
+}
+
+.slick-prev:before, .slick-next:before{
+  font-size: 50px;
+}
