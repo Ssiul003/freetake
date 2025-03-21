@@ -25,6 +25,8 @@ const Donate = () => {
       alert("Please fill in all fields.");
       return;
     }
+
+    const donationDate = new Date().toLocaleString(); 
     
     const newFoodItem = {
       id: donatedItems.length + 1,
@@ -33,8 +35,9 @@ const Donate = () => {
       phone: userDetails.phone,
       location: userDetails.location,
       image: foodImage,
+      date: donationDate, 
     };
-    
+
     if (selectedItem) {
       const updatedItems = donatedItems.map(item =>
         item.id === selectedItem.id ? { ...item, ...newFoodItem } : item
@@ -55,7 +58,6 @@ const Donate = () => {
     const updatedItems = donatedItems.filter(item => item.id !== id);
     setDonatedItems(updatedItems);
   };
-
 
   const handleEdit = (item) => {
     setSelectedItem(item);
@@ -139,6 +141,7 @@ const Donate = () => {
                     <p><strong>Donor:</strong> {item.donor}</p>
                     <p><strong>Phone:</strong> {item.phone}</p>
                     <p><strong>Location:</strong> {item.location}</p>
+                    <p><strong>Donation Date:</strong> {item.date}</p> 
                   </div>
                   <button className="edit-button" onClick={() => handleEdit(item)}>Edit</button>
                   <button className="delete-button" onClick={() => handleDelete(item.id)}>X</button>
