@@ -1,12 +1,24 @@
+.donate-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.donate-page .page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .donate-page .food-item {
   position: relative;
-  width: 200px; 
-  height: 200px; 
+  width: 300px;
+  height: 200px;
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(131, 130, 130, 0.2);
   transition: transform 0.3s ease-in-out;
-  margin: 10px; 
+  margin: 10px;
 }
 
 .donate-page .food-item:hover {
@@ -23,6 +35,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  min-width: 200px;
+  min-height: 200px;
   border-radius: 10px;
 }
 
@@ -49,37 +63,18 @@
   opacity: 1;
 }
 
-.donate-page .food-slider {
-  background:gray;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-}
-
-.donate-page .slick-slide {
-  margin: 0 10px; 
-}
-.donate-page .slick-track {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-
-.donate-page .model-overlay {
+.donate-page .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6); 
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
-
 
 .donate-page .modal-content {
   background: white;
@@ -91,7 +86,6 @@
   text-align: center;
   position: relative;
 }
-
 
 .donate-page .modal-buttons {
   display: flex;
@@ -106,7 +100,7 @@
 }
 
 .donate-page .modal-buttons button:first-child {
-  background: green;
+  background: #49E761;
   color: white;
 }
 
@@ -114,4 +108,72 @@
   background: red;
   color: white;
 }
+
+.donate-page .donate-button {
+  background-color: #49E761;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.donate-page .donate-button:hover {
+  color: #49E761;
+  background-color: black;
+  border-color: black;
+}
+
+.donate-page .donate-button:active {
+  background-color: #1e7e34;
+  transform: scale(0.95);
+}
+
+.donate-page .food-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 20px;
+  width: 100%;
+  gap: 10px;
+}
+
+.donate-page .food-grid .food-item {
+  margin: 0;
+  flex: 1 1 200px;
+  max-width: 300px;
+}
+
+.donate-page .food-grid .food-item:hover .overlay {
+  opacity: 1;
+}
+
+.donate-page .food-item .edit-button {
+  left: 10px; 
+  background-color: green;
+  position: absolute;
+  top: 10px;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.donate-page .food-item .delete-button {
+  right: 10px;
+  position: absolute;
+  top: 10px;
+  background-color:red;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 2;
+}
+
 
