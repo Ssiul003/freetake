@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import "./Donate.css";
-
+import { FaEdit } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 const Donate = () => {
   const [showModal, setShowModal] = useState(false);
   const [foodName, setFoodName] = useState("");
@@ -143,8 +144,8 @@ const Donate = () => {
                     <p><strong>Location:</strong> {item.location}</p>
                     <p><strong>Donation Date:</strong> {item.date}</p> 
                   </div>
-                  <button className="edit-button" onClick={() => handleEdit(item)}>Edit</button>
-                  <button className="delete-button" onClick={() => handleDelete(item.id)}>X</button>
+                  <button className="edit-button" onClick={() => handleEdit(item)}><FaEdit /></button>
+                  <button className="delete-button" onClick={() => handleDelete(item.id)}><MdCancel /></button>
                 </div>
               </div>
             ))}
