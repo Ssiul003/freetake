@@ -7,7 +7,7 @@ const Login = () => {
 
   const toggleForm = () => {
     setIsSignUp((prevState) => !prevState);
-    setIsForgotPassword(false);  // Reset Forgot Password form if toggling
+    setIsForgotPassword(false);  
   };
   
   const handleForgotPassword = () => {
@@ -22,7 +22,6 @@ const Login = () => {
   let formContent;
 
   if (isForgotPassword) {
-    // Forgot Password Flow
     formContent = (
       <div>
         <h2>Reset Your Password</h2>
@@ -37,7 +36,6 @@ const Login = () => {
       </div>
     );
   } else if (!isSignUp) {
-    // Login Flow
     formContent = (
       <div>
         <form className='authentication-form'>
@@ -57,13 +55,24 @@ const Login = () => {
       </div>
     );
   } else {
-    // Sign Up Flow
     formContent = (
       <div>
         <form className='authentication-form'>
           <div>
             <label>Email: </label>
             <input type="email" placeholder="Enter your email" required />
+          </div>
+          <div>
+            <label>First Name: </label>
+            <input type="firstName" placeholder="Enter your first name" required />
+          </div>
+          <div>
+            <label>Last Name: </label>
+            <input type="lastName" placeholder="Enter your last name" required />
+          </div>
+          <div>
+            <label>Phone Number: </label>
+            <input type="phoneNumber" placeholder="Enter your phone number" required />
           </div>
           <div>
             <label>Password: </label>
