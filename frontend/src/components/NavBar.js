@@ -7,7 +7,7 @@ const Navbar = () => {
     <nav>
       <ul className="nav-container">
         <div className="nav-links">
-          <li><Link to="/" className="brand styled-nav-link"><img className='brand-logo' src={logo} /></Link></li>
+          <li><Link to="/" className="brand styled-nav-link"><img className='brand-logo' src={logo} alt='FreeTake' /></Link></li>
         </div>
         <div className="nav-links nav-links-center">
           <li><Link to="/receive" className='styled-nav-link'>Free Food</Link></li>
