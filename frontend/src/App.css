@@ -83,6 +83,11 @@ nav{
   border-color: black;
 }
 
+.brand-logo{
+  height: 90px;
+  width: 175px;
+}
+
 /* Form and page styles */
 form {
   max-width: 400px;
