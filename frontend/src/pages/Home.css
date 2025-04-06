@@ -12,7 +12,6 @@
   background: none;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -21,12 +20,10 @@
   height: auto;  
   object-fit: cover;     
   border-radius: 8px;      
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .home-page .slide p {
   margin-top: 10px;
-  color: #333;
   font-size: 18px;
   font-weight: 600;
 }
@@ -38,7 +35,6 @@
   gap: 20px;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .home-page .content-box p {
@@ -58,8 +54,8 @@
 .home-page .receive-link h2{
   display: inline-block;
   padding: 10px 30px 10px 30px;
-  background-color: #4CAF50;
-  color: black;
+  background-color: #6ebe59;
+  color: white;
   font-size: 2em;
   text-align: center;
   text-decoration: none; 
@@ -69,7 +65,11 @@
 }
 
 .home-page .receive-link h2:hover {
-  background-color: #45a049; 
+  background-color: #0a931f;
+}
+
+.home-page .receive-link h2:active{
+  background-color: #6ebe59;
 }
 
 .home-content{
@@ -86,6 +86,7 @@
 .info-box img{
   width: 100%;
   max-width: 25vw;
+  height: 250px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -132,7 +133,7 @@
 
 /* active dot will be green */
 .green-slider-dots li.slick-active button{
-  background-color: #48D998;
+  background-color: #6ebe59;
 }
 
 /* overwriting react-slick arrow css */
@@ -142,7 +143,7 @@
 }
 
 .slick-next{
-  right: 5%;
+  right: 6%;
   z-index: 1;
 }
 

@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 .authentication-form{
     display: flex;
     flex-direction: column;
@@ -25,7 +29,7 @@
 }
 
 .authentication-form button:hover{
-    background-color: #0D731D;
+    background-color: #0a931f;
 }
 
 .authentication-form button[type="submit"]{
@@ -58,7 +62,7 @@
 
 .on-login-form, .on-signup-form{
     color: white;
-    background-color: #0D731D;
+    background-color: #0a931f;
 }
 
 .off-login-form, .off-signup-form{
@@ -68,6 +72,7 @@
 
 .off-login-form:hover, .off-signup-form:hover{
     background-color: #6EBE59;
+    color: white;
 }
 
 .forgot-password-btn, .back-to-login-btn{
@@ -80,4 +85,10 @@
 
 .forgot-password-btn:hover, .back-to-login-btn:hover{
     color: black;
+}
+
+@media (max-width: 545px){
+    .authentication-form div{
+        min-width: 310px;
+    }
 }
