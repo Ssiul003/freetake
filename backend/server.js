@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser'
 
+import userReq from './crud/user.js'
+
 dotenv.config();
 
 const API_PORT = process.env.API_PORT || 3000;
@@ -62,5 +64,5 @@ async function startServer() {
     process.exit(1);
   }
 }
-
+app.use('/', userReq);
 startServer();
