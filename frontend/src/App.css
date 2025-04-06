@@ -1,5 +1,6 @@
 /* Layout for the whole page */
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,11 +23,15 @@ nav{
 }
 
 .nav-container{
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 15px;
+  width: 100%;
+}
+
+.nav-container div{
+  display: flex;
 }
 
 .nav-container .nav-links li{
@@ -35,17 +40,9 @@ nav{
 
 .nav-links-center{
   position: absolute;
-  right: 40%;
-}
-
-@media (max-width: 1080px){
-  .nav-links-center{
-    position: static;
-  }
-}
-
-.nav-links-right, .nav-links-center{
-  display: flex;
+  justify-content: cener;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-links-right li, .nav-links-center li{
@@ -118,4 +115,25 @@ form button {
 
 form button:hover {
   background-color: #2563eb;
+}
+
+@media (max-width: 1125px){
+  .nav-links-center{
+    position: static;
+    transform: none;
+  }
+}
+
+@media (max-width: 875px){
+  .nav-container{
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+
+@media (max-width: 385px){
+  .nav-links-center li{
+    padding: 3px 7px 3px 7px;
+  }
 }
