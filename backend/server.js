@@ -8,7 +8,7 @@ dotenv.config();
 const API_PORT = process.env.API_PORT || 3000;
 
 // ENSURE ENV VARIABLES EXIST
-const requiredEnvVars = ['USER', 'PASS', 'SERVER', 'DATABASE'];
+const requiredEnvVars = ['USERNAME', 'PASS', 'SERVER', 'DATABASE'];
 const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
 
 if (missingEnvVars.length > 0) {
