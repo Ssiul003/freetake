@@ -18,59 +18,69 @@ nav{
   list-style-type: none;
 }
 
-.nav-links-center{
+.nav-center{
   position: absolute;
   justify-content: center;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.nav-links-right li, .nav-links-center li{
+.nav-right li, .nav-center li{
   margin: 10px;
 }
 
-.nav-links-center li{
+.nav-center li{
   border: 2em;
   border-radius: 10%;
   padding: 5px 10px 5px 10px;
   background-color: #6EBE59;
 }
 
-.nav-links-center .styled-nav-link{
+.nav-center .styled-link{
   text-decoration: none;
   font-weight: bold;
   color: white;
   font-size: 1.5em;
 }
 
-.nav-links-right .styled-nav-link{
+.nav-right .styled-link{
   text-decoration: none;
   font-weight: bold;
   color: black;
   font-size: 1.5em;
 }
 
-.nav-links .brand:hover, .nav-links-right li:hover{
+.nav-right .styled-bookmark{
+  color: #6EBE59;
+  font-size: 1.5em;
+}
+
+.nav-right .styled-bookmark:hover{
+  color: #0A931F;
+  font-size: 1.5em;
+}
+
+.nav-links .brand:hover, .nav-right li:hover{
   color: #0A931F;
 }
 
-.nav-links .brand:active, .nav-links-right li:active{
+.nav-links .brand:active, .nav-right li:active{
   color: #6EBE59;
 }
 
-.nav-links-center li:hover{
+.nav-center li:hover{
   background-color: #0A931F;
 }
 
-.nav-links-center li:active{
+.nav-center li:active{
   background-color: #6EBE59;
 }
 
-.nav-links-right .styled-nav-link:hover{
+.nav-right .styled-link:hover{
   color: #0A931F;
 }
 
-.nav-links-right .styled-nav-link:active{
+.nav-right .styled-link:active{
   color: #6EBE59;
 }
 
@@ -79,12 +89,20 @@ nav{
   width: 175px;
 }
 
+.brand-logo:hover{
+  filter: brightness(75%);
+}
+
+.brand-logo:active{
+  filter: brightness(50%);
+}
+
 @media (max-width: 1125px){
   nav{
     width: 90%;
   }
 
-  .nav-links-center{
+  .nav-center{
     position: static;
     transform: none;
   }
@@ -99,7 +117,7 @@ nav{
 }
 
 @media (max-width: 385px){
-  .nav-links-center li{
+  .nav-center li{
     padding: 3px 7px 3px 7px;
   }
 }

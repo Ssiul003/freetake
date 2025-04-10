@@ -9,6 +9,7 @@ import Receive from "./pages/Receive";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Account from "./pages/Account"; 
+import Bookmark from "./pages/Bookmark";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,6 +26,7 @@ function App() {
           <Route path="/receive" element={<Receive />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/bookmark" element={<Bookmark />} />
         </Routes>
       </div>
     </Router>
