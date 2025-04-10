@@ -1,0 +1,62 @@
+.contact{
+    width: 45%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+form h1{
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 1em;
+}
+
+form > *{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+label{
+    font-weight: bold;
+}
+
+input, .message{
+    width: 100%;
+    padding: 1em;
+    background-color: #EBEBEB;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-size: 1em;
+}
+
+.message{
+    height: 20vh;
+    resize: none;
+    font-size: 1.2em;
+}
+
+.submit-btn{
+    background-color: #6EBE59;
+    width: 60%;
+}
+
+.submit-btn:hover{
+    background-color: #0a931f;
+}
+
+.submit-btn:active{
+    background-color: #6EBE59;
+}
+
+@media (max-width: 1125px){
+    .contact{
+        width: 75%;
+    }
+}
