@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import "./Donate.css";
+import "../pages-styles/Donate.css";
 import { FaEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 const Donate = () => {

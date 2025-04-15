@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './Home.css';
+import '../pages-styles/Home.css';
 import appreciateDonation from "../images/appreciatedonationhero3.png";
 import areYouHungry from "../images/areyouhundryhero1.png";
 import grabSomeFood from "../images/grabsomefreefoodhero4.png";

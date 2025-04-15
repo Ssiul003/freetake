@@ -1,7 +1,3 @@
-*{
-    box-sizing: border-box;
-}
-
 .authentication-form{
     display: flex;
     flex-direction: column;
@@ -17,7 +13,13 @@
 }
 
 .authentication-form input{
+    width: 100%;
+    padding: 0.5em;
+    margin: 0.5em;
     background-color: #EBEBEB;
+    border: 1px solid white;
+    border-radius: 4px;
+    font-size: 1em;
 }
 
 .authentication-form label{
