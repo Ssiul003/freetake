@@ -42,8 +42,9 @@ let pool = null;
 const app = express();
 app.use(bodyParser.json());
 
-async function connectToDatabase() {
-  try {
+// Allows connection to database, for CRUD operations
+export const connectToDatabase = async() => {
+    try {
     pool = await sql.connect(config);
     console.log("Database successfully connected!");
     return pool;
@@ -51,7 +52,7 @@ async function connectToDatabase() {
     console.error("Database connection error:", err.message);
     throw err;
   }
-}
+};
 
 async function startServer() {
   try {
