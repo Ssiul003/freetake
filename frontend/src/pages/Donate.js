@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import "../pages-styles/Donate.css";
 import { FaEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+
+
 const Donate = () => {
   const [showModal, setShowModal] = useState(false);
   const [foodName, setFoodName] = useState("");
@@ -20,15 +22,43 @@ const Donate = () => {
     setFoodImage(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!foodName || !userDetails.name || !userDetails.phone || !userDetails.location || !foodImage) {
       alert("Please fill in all fields.");
       return;
     }
-
-    const donationDate = new Date().toLocaleString(); 
-    
+  
+    const donationDate = new Date().toISOString();
+    const imageUrl = foodImage; // In real apps, you'd upload this to cloud storage and save the URL
+  
+    const donationData = {
+      foodName,
+      donorName: userDetails.name,
+      phone: userDetails.phone,
+      location: userDetails.location,
+      imageUrl,
+      donationDate,
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3000/donate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(donationData),
+      });
+  
+      if (!response.ok) throw new Error("Failed to save donation");
+  
+      alert("Donation submitted!");
+    } catch (err) {
+      console.error(err);
+      alert("There was an error submitting the donation.");
+    }
+  
+    // Local state update for UI
     const newFoodItem = {
       id: donatedItems.length + 1,
       name: foodName,
@@ -36,24 +66,25 @@ const Donate = () => {
       phone: userDetails.phone,
       location: userDetails.location,
       image: foodImage,
-      date: donationDate, 
+      date: new Date().toLocaleString(),
     };
-
+  
     if (selectedItem) {
       const updatedItems = donatedItems.map(item =>
         item.id === selectedItem.id ? { ...item, ...newFoodItem } : item
       );
       setDonatedItems(updatedItems);
-      setSelectedItem(null); 
+      setSelectedItem(null);
     } else {
       setDonatedItems((prevItems) => [...prevItems, newFoodItem]);
     }
-    
+  
     setShowModal(false);
     setFoodName("");
     setUserDetails({ name: "", phone: "", location: "" });
     setFoodImage(null);
   };
+  
 
   const handleDelete = (id) => {
     const updatedItems = donatedItems.filter(item => item.id !== id);
@@ -67,6 +98,27 @@ const Donate = () => {
     setFoodImage(item.image);
     setShowModal(true);
   };
+  useEffect(() => {
+    fetch("http://localhost:3000/donate")
+      .then((res) => res.json())
+      .then((data) => {
+        // convert to frontend format
+        const items = data.map((item) => ({
+          id: item.id,
+          name: item.foodName,
+          donor: item.donorName,
+          phone: item.phone,
+          location: item.location,
+          image: item.imageUrl,
+          date: new Date(item.donationDate).toLocaleString(),
+        }));
+        setDonatedItems(items);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch donations:", err);
+      });
+  }, []);
+  
 
   return (
     <div className="donate-page">
