@@ -1,0 +1,97 @@
+html {
+    background-color: #FCFCFC;
+    color: #0B140E;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+body {
+    color: #0B140E;             
+    font-family: 'Open Sans', sans-serif; 
+    height: 100%;               
+  }
+
+/* Contact Form Styling */
+.contact {
+    width: 45%;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* Header within the form */
+form h1 {
+    text-align: left;
+    font-size: 2em;
+    margin: 2em 0;
+    color: #0B140E; /* Ensuring text color for header */
+}
+
+h1 {
+    font-size: 2em; /* Apply the same font size */
+    color: #0B140E;
+}
+
+h2, h3 {
+    color: #0B140E;
+}
+
+/* Apply same width and margin for all child elements in form */
+form > * {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Label Styling */
+label {
+    font-weight: bold;
+    color: #0B140E; /* Ensuring label text color */
+}
+
+/* Input Fields and Message Area */
+input, .message {
+    width: 100%;
+    padding: 1em;
+    background-color: #EBEBEB;
+    border: 1px solid #FCFCFC;
+    border-radius: 10px;
+    font-size: 1em;
+    color: #0B140E; /* Ensuring input and message text color */
+}
+
+/* Message Area */
+.message {
+    height: 20vh;
+    resize: none;
+    font-size: 1.2em;
+}
+
+/* Submit Button Styling */
+.submit-btn {
+    background-color: #6EBE59;
+    width: 60%;
+    color: #FCFCFC; /* Ensuring text color for the button */
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #0a931f;
+}
+
+.submit-btn:active {
+    background-color: #6EBE59;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 1125px) {
+    .contact {
+        width: 75%;
+    }
+}
