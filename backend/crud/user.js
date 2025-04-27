@@ -13,7 +13,7 @@ const hashPassword = (password) => {
 
 
 // CREATE
-router.post('/user', async (req, res) => {
+router.post('/user/new', async (req, res) => {
 /*  This should be handled in the front end
       - Username is too short
       - Password is too weak, ie short or missing unique characters
@@ -31,9 +31,11 @@ router.post('/user', async (req, res) => {
         const pool = await connectToDatabase();
 
         //CHECK IF USERNAME EXIST
+        
         const usernameExist = await pool.request()
         .input('username', sql.NVarChar, username)
         .query('SELECT 1 FROM [FreeTake].[user] WHERE username = @username');
+        
 
         if(usernameExist.recordset.length > 0) return res.status(400).json({ message: 'Username already taken.' });
 
@@ -61,7 +63,33 @@ router.post('/user', async (req, res) => {
     
     
     console.log('User successfully created');
-    res.send('Hello!');
+    res.send('User successfully created');
 })
+
+router.get('/user/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // Simulate a database fetch
+    const pool = await connectToDatabase();
+    const result = await pool.request()
+    .input('user_id', sql.NVarChar, id)
+    .query('SELECT * FROM [FreeTake].[user] WHERE user_id = @user_id');
+    
+    var user;
+    try {
+      user = result.recordset[0];
+    } catch { return res.status(404).json({ message: 'User not found.' }); }
+
+    delete user.Hashedpassword;
+    delete user.Salt;
+    delete user.Address;
+    
+    return res.json(result.recordset[0]);
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 export default router
