@@ -8,6 +8,11 @@ const router = express.Router();
 router.post('/donate', async (req, res) => {
   const { foodName, donorName, phone, location, imageUrl, donationDate } = req.body;
   
+  /*
+  Don't try this
+  This creates a whole new table unrelated to the database
+  This will be rewritten to FreeTake.Food_Listing (Which has foreign keys to other information aswell)
+  */
   try {
     const pool = await connectToDatabase();
     await pool.request()
