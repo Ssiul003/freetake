@@ -1,5 +1,5 @@
 import express from 'express';
-import crypto, { hash } from 'crypto';
+import crypto from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
 
@@ -37,12 +37,12 @@ router.post('/user/new', async (req, res) => {
         return res.status(400).json({ message: 'Missing required fields' });
       }
     try {
-      // Two line should be in front-end
+      // This should be in front-end
         const { salt, hashedPassword } = hashPassword(password);
+        
         const pool = await connectToDatabase();
 
       // CHECK IF USERNAME EXIST
-        
         const usernameExist = await pool.request()
         .input('username', sql.NVarChar, username)
         .query('SELECT 1 FROM [FreeTake].[user] WHERE username = @username');
