@@ -27,19 +27,21 @@ body {
     margin: 1em;
 }
 
-.authentication-form input{
-    width: 100%;
-    padding: 2m;
-    margin: 0em;
-    background-color: #EBEBEB;
-    border: 1px solid #FCFCFC;
-    border-radius: 4px;
-    font-size: 1em;
+.authentication-form label{
+    display: flex;
+    font-weight: bold;
+    text-align: right;
+    
 }
 
-.authentication-form label{
-    font-weight: bold;
-    
+.authentication-form label > p{
+    margin-left: auto;
+}
+
+.authentication-form p:hover{
+    cursor: pointer;
+    transition: color 1s ease;
+    color: #0a931f;
 }
 
 .authentication-form button{
@@ -115,4 +117,38 @@ body {
     .authentication-form div{
         min-width: 310px;
     }
+}
+
+.authentication-form input{
+    border: 2px solid transparent;
+    width: 100%;
+    padding: 1rem;
+    background-color: #EBEBEB;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
+}
+
+.authentication-form input.error{
+    border: 2px solid red;
+}
+
+.authentication-form input.correct{
+    border: 2px solid green;
+}
+
+.error-message, .correct-message{
+    display: none;
+}
+
+.authentication-form > div{
+    position: relative;
+}
+
+.authentication-form input.error ~ .error-message,
+.authentication-form input.correct ~ .correct-message{
+    position: absolute;
+    width: 100%;
+    bottom: -10px;
+    display: block;
 }
