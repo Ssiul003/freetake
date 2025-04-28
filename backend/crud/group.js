@@ -76,7 +76,7 @@ router.get('/group/:id', async (req, res) => {
 
       return res.json(result.recordset[0]);
     } catch (error) {
-      console.error('Error fetching user:', error);
+      console.error('Error fetching group:', error);
       return res.status(500).json({ message: 'Server error' });
     }
   });
