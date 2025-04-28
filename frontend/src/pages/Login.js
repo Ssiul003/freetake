@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
+
+// all form components
+import ForgotPasswordForm from '../components/ForgotPasswordForm/ForgotPasswordForm';
+import LoginForm from '../components/LoginForm/LoginForm';
+import SignupForm from '../components/SignupForm/SignupForm';
+
 import '../pages-styles/Login.css';
+
+// custom hooks
+import { useSignupStates } from '../hooks/useSignup';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -19,73 +28,38 @@ const Login = () => {
     alert('Password reset link sent to your email');
   };
 
-  let formContent;
+  const {
+    formInput,
+    formError,
+    handleSignupInput,
+    handleSignup,
+    showPassword,
+    toggleShowPassword
+  } = useSignupStates();
+
+  var formContent = null;
 
   if (isForgotPassword) {
-    formContent = (
-      <div>
-        <h2>Reset Your Password</h2>
-        <form className='authentication-form' onSubmit={handlePasswordReset}>
-          <div>
-            <label>Email: </label>
-            <input type="email" placeholder="Enter your email" required />
-          </div>
-          <button type="submit">Send Reset Link</button>
-        </form>
-        <button className="back-to-login-btn" onClick={() => setIsForgotPassword(false)}>Back To Login?</button>
-      </div>
-    );
+    formContent =
+      <ForgotPasswordForm
+        handlePasswordReset={handlePasswordReset}
+        onClick={() => setIsForgotPassword(false)}
+      />
   } else if (!isSignUp) {
-    formContent = (
-      <div>
-        <form className='authentication-form'>
-          <div>
-            <label>Email: </label>
-            <input type="email" placeholder="Enter your email" required />
-          </div>
-          <div>
-            <label>Password: </label>
-            <input type="password" placeholder="Enter your password" required />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-        <p>
-          <button className="forgot-password-btn" onClick={handleForgotPassword}>Forgot Password?</button>
-        </p>
-      </div>
-    );
+    formContent =
+      <LoginForm
+        handleForgotPassword={handleForgotPassword}
+      />
   } else {
-    formContent = (
-      <div>
-        <form className='authentication-form'>
-          <div>
-            <label>Email: </label>
-            <input type="email" placeholder="Enter your email" required />
-          </div>
-          <div>
-            <label>First Name: </label>
-            <input type="firstName" placeholder="Enter your first name" required />
-          </div>
-          <div>
-            <label>Last Name: </label>
-            <input type="lastName" placeholder="Enter your last name" required />
-          </div>
-          <div>
-            <label>Phone Number: </label>
-            <input type="phoneNumber" placeholder="Enter your phone number" required />
-          </div>
-          <div>
-            <label>Password: </label>
-            <input type="password" placeholder="Create your password" required />
-          </div>
-          <div>
-            <label>Confirm Password: </label>
-            <input type="password" placeholder="Confirm your password" required />
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
-      </div>
-    );
+    formContent =
+      <SignupForm
+        formInput={formInput}
+        formError={formError}
+        handleSignupInput={handleSignupInput}
+        handleSignup={handleSignup}
+        showPassword={showPassword}
+        toggleShowPassword={toggleShowPassword}
+      />
   }
 
   return (
