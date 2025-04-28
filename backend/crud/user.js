@@ -1,5 +1,5 @@
 import express from 'express';
-import crypto from 'crypto';
+import crypto, { hash } from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
 
@@ -8,6 +8,8 @@ const router = express.Router();
 const fieldTypeMap = {
   username: sql.NVarChar,
   email: sql.NVarChar,
+  hashpassword: sql.NVarChar,
+  salt: sql.NVarChar,
   firstname: sql.NVarChar,
   lastname: sql.NVarChar,
   address: sql.Text,
@@ -27,19 +29,19 @@ router.post('/user/new', async (req, res) => {
       - Username is too short
       - Password is too weak, ie short or missing unique characters
       - Email is legitiment (Maybe an external dependency to check this?)
-
-    Furthermore, ensure hashing is done on the front end client so it doesn't send unencrypted data.
+      - Hashing (To not send unencrypted data)
 */
     const { username, email, password, firstname, lastname, address } = req.body;
 
-    if (!username || !email || !password || !firstname || !lastname) {
+    if (!username || !email || !password || !firstname || !lastname || !address) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
     try {
+      // Two line should be in front-end
         const { salt, hashedPassword } = hashPassword(password);
         const pool = await connectToDatabase();
 
-        //CHECK IF USERNAME EXIST
+      // CHECK IF USERNAME EXIST
         
         const usernameExist = await pool.request()
         .input('username', sql.NVarChar, username)
@@ -50,29 +52,43 @@ router.post('/user/new', async (req, res) => {
         // There could be one for email
         /* Email here */
 
-       // Create user request into database
-       // To be refactored, bunch of manual input is not good
-        const request = await pool.request()
-        .input('username', sql.VarChar, username)
-        .input('email', sql.VarChar, email)
-        .input('hashedpassword', sql.VarChar, hashedPassword)
-        .input('salt', sql.VarChar, salt)
-        .input('firstname', sql.VarChar, firstname)
-        .input('lastname', sql.VarChar, lastname)
-        .input('address', sql.Text, address)
-        .input('group_id', sql.Int, null)
-        .query(`
-          INSERT INTO [FreeTake].[user] (username, email, hashedpassword, salt, firstname, lastname, address, group_id)
-          VALUES (@username, @email, @hashedpassword, @salt, @firstname, @lastname, @address, @group_id)
-        `);
+      // Create user request into database
+        const request = await pool.request();
+
+        const fields = {
+          username,
+          email,
+          hashedpassword: hashedPassword,
+          salt,
+          firstname,
+          lastname,
+          address,
+          group_id: null, // User create an account without a group
+        };
+
+        const fieldNames = [];
+        const fieldParams = [];
+    
+        for (const [key, value] of Object.entries(fields)) {
+          // Failsafe
+          if (value !== undefined) {
+            fieldNames.push(key);
+            fieldParams.push(`@${key}`);
+            const fieldType = fieldTypeMap[key] || sql.NVarChar;
+            request.input(key, fieldType, value);
+          } else { return res.status(500).json({ message: 'New parameter not defined.' }); }
+        }
+    
+        const query = `INSERT INTO [FreeTake].[user] (${fieldNames.join(', ')})
+          VALUES (${fieldParams.join(', ')})`;
+    
+        await request.query(query);
+        
+        return res.send('User successfully created');
     } catch (err) {
         console.error('Error creating user:', err);
         return res.status(500).json({ message: 'Server error' });
       }
-    
-    
-    console.log('User successfully created');
-    res.send('User successfully created');
 })
 
 router.get('/user/:id', async (req, res) => {
@@ -96,7 +112,7 @@ router.get('/user/:id', async (req, res) => {
     return res.json(result.recordset[0]);
   } catch (error) {
     console.error('Error fetching user:', error);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 
@@ -150,7 +166,7 @@ router.put('/user/:id', async(req, res) => {
 
   } catch(error) {
     console.error('Error updating user:', error);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 
