@@ -47,7 +47,8 @@ router.post('/user/new', async (req, res) => {
         .input('username', sql.NVarChar, username)
         .query('SELECT 1 FROM [FreeTake].[user] WHERE username = @username');
 
-        if(usernameExist.recordset.length > 0) return res.status(400).json({ message: 'Username already taken.' });
+        if(usernameExist.recordset.length > 0) 
+          return res.status(400).json({ message: 'Username already taken.' });
 
         // There could be one for email
         /* Email here */
@@ -63,7 +64,7 @@ router.post('/user/new', async (req, res) => {
           firstname,
           lastname,
           address,
-          group_id: null, // User create an account without a group
+          group_id: null, // User creates an account without a group
         };
 
         const fieldNames = [];
@@ -83,7 +84,7 @@ router.post('/user/new', async (req, res) => {
           VALUES (${fieldParams.join(', ')})`;
     
         await request.query(query);
-        
+
         return res.send('User successfully created');
     } catch (err) {
         console.error('Error creating user:', err);
@@ -100,10 +101,9 @@ router.get('/user/:id', async (req, res) => {
     .input('user_id', sql.NVarChar, id)
     .query('SELECT * FROM [FreeTake].[user] WHERE user_id = @user_id');
     
-    var user;
-    try {
-      user = result.recordset[0];
-    } catch { return res.status(404).json({ message: 'User not found.' }); }
+    var user = result.recordset[0];
+    if (!user) 
+      return res.status(404).json({ message: 'User not found.' });
 
     delete user.Hashedpassword;
     delete user.Salt;
@@ -170,5 +170,26 @@ router.put('/user/:id', async(req, res) => {
   }
 });
 
+router.delete('/user/:id', async (req, res) => {
+  const userId = req.params.id;
+  if (!userId) return res.status(400).json({ message: 'User ID is required.' });
+
+  try {
+    const pool = await connectToDatabase();
+
+    const result = await pool.request()
+    .input('user_id', sql.Int, userId).query(`DELETE FROM [FreeTake].[user] WHERE user_id = @user_id`);
+
+    if (result.rowsAffected[0] === 0)
+      return res.status(404).json({ message: 'User not found.' });
+
+
+    return res.json({ message: 'User deleted successfully' });
+
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
 
 export default router
