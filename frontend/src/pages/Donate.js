@@ -4,14 +4,18 @@ import "../pages-styles/Donate.css";
 import { FaEdit } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
-
 const Donate = () => {
   const [showModal, setShowModal] = useState(false);
   const [foodName, setFoodName] = useState("");
-  const [userDetails, setUserDetails] = useState({ name: "", phone: "", location: "" });
+  const [quantity, setQuantity] = useState("");
+  const [cuisine, setCuisine] = useState("");
+  const [pickupTime, setPickupTime] = useState("");
+  const [isIndividual, setIsIndividual] = useState(false);
+  const [isRestaurant, setIsRestaurant] = useState(false);
+  const [userDetails, setUserDetails] = useState({ phone: "", location: "" });
   const [foodImage, setFoodImage] = useState(null);
   const [donatedItems, setDonatedItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null); 
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
@@ -24,23 +28,31 @@ const Donate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!foodName || !userDetails.name || !userDetails.phone || !userDetails.location || !foodImage) {
+    if (!foodName || !quantity || !cuisine || !pickupTime || !userDetails.phone || !userDetails.location || !foodImage || (!isIndividual && !isRestaurant)) {
       alert("Please fill in all fields.");
       return;
     }
-  
+
+    const donorType = isIndividual ? "Individual" : isRestaurant ? "Local Restaurant" : "Unknown";
     const donationDate = new Date().toISOString();
-    const imageUrl = foodImage; // In real apps, you'd upload this to cloud storage and save the URL
-  
+    const imageUrl = foodImage;
+    const options = { timeStyle: 'short', hour12: true };
+    const formattedPickupTime = new Date(`1970-01-01T${pickupTime}:00`).toLocaleTimeString('en-US', options);
+    
+
+
     const donationData = {
       foodName,
-      donorName: userDetails.name,
+      quantity,
+      cuisine,
+      pickupTime:formattedPickupTime,
       phone: userDetails.phone,
       location: userDetails.location,
       imageUrl,
+      donorType,
       donationDate,
     };
-  
+
     try {
       const response = await fetch('http://localhost:3000/donate', {
         method: 'POST',
@@ -49,26 +61,28 @@ const Donate = () => {
         },
         body: JSON.stringify(donationData),
       });
-  
+
       if (!response.ok) throw new Error("Failed to save donation");
-  
+
       alert("Donation submitted!");
     } catch (err) {
       console.error(err);
       alert("There was an error submitting the donation.");
     }
-  
-    // Local state update for UI
+
     const newFoodItem = {
       id: donatedItems.length + 1,
       name: foodName,
-      donor: userDetails.name,
+      quantity,
+      cuisine,
+      pickupTime: formattedPickupTime,
       phone: userDetails.phone,
       location: userDetails.location,
+      donorType,
       image: foodImage,
       date: new Date().toLocaleString(),
     };
-  
+
     if (selectedItem) {
       const updatedItems = donatedItems.map(item =>
         item.id === selectedItem.id ? { ...item, ...newFoodItem } : item
@@ -78,13 +92,17 @@ const Donate = () => {
     } else {
       setDonatedItems((prevItems) => [...prevItems, newFoodItem]);
     }
-  
+
     setShowModal(false);
     setFoodName("");
-    setUserDetails({ name: "", phone: "", location: "" });
+    setQuantity("");
+    setCuisine("");
+    setPickupTime("");
+    setIsIndividual(false);
+    setIsRestaurant(false);
+    setUserDetails({ phone: "", location: "" });
     setFoodImage(null);
   };
-  
 
   const handleDelete = (id) => {
     const updatedItems = donatedItems.filter(item => item.id !== id);
@@ -94,21 +112,29 @@ const Donate = () => {
   const handleEdit = (item) => {
     setSelectedItem(item);
     setFoodName(item.name);
-    setUserDetails({ name: item.donor, phone: item.phone, location: item.location });
+    setQuantity(item.quantity);
+    setCuisine(item.cuisine);
+    setPickupTime(item.pickupTime);
+    setIsIndividual(item.donorType === "Individual");
+    setIsRestaurant(item.donorType === "Local Restaurant");
+    setUserDetails({ phone: item.phone, location: item.location });
     setFoodImage(item.image);
     setShowModal(true);
   };
+
   useEffect(() => {
     fetch("http://localhost:3000/donate")
       .then((res) => res.json())
       .then((data) => {
-        // convert to frontend format
         const items = data.map((item) => ({
           id: item.id,
           name: item.foodName,
-          donor: item.donorName,
+          quantity: item.quantity,
+          cuisine: item.cuisine,
+          pickupTime: item.pickupTime,
           phone: item.phone,
           location: item.location,
+          donorType: item.donorType,
           image: item.imageUrl,
           date: new Date(item.donationDate).toLocaleString(),
         }));
@@ -118,7 +144,6 @@ const Donate = () => {
         console.error("Failed to fetch donations:", err);
       });
   }, []);
-  
 
   return (
     <div className="donate-page">
@@ -133,47 +158,44 @@ const Donate = () => {
             <div className="modal-content">
               <form onSubmit={handleSubmit}>
                 <label>Food Name:</label>
-                <input
-                  type="text"
-                  value={foodName}
-                  onChange={(e) => setFoodName(e.target.value)}
-                  required
-                />
-                
-                <label>Your Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={userDetails.name}
-                  onChange={handleChange}
-                  required
-                />
-                
+                <input type="text" value={foodName} onChange={(e) => setFoodName(e.target.value)} required />
+
+                <label>Quantity:</label>
+                <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+
+                <label>Cuisine:</label>
+                <input type="text" value={cuisine} onChange={(e) => setCuisine(e.target.value)} required />
+
+                <label>Pickup Time:</label>
+                <input type="time" value={pickupTime} onChange={(e) => setPickupTime(e.target.value)} required />
+
                 <label>Phone Number:</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={userDetails.phone}
-                  onChange={handleChange}
-                  required
-                />
-                
+                <input type="tel" name="phone" value={userDetails.phone} onChange={handleChange} required />
+
                 <label>Location:</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={userDetails.location}
-                  onChange={handleChange}
-                />
-                
+                <input type="text" name="location" value={userDetails.location} onChange={handleChange} required />
+
+                <label>Donor:</label>
+                <div className="donor-type-options">
+                  <label className="donor-label">
+                    Individual
+                    <input type="radio" name="donortype" checked={isIndividual} onChange={() => {
+                      setIsIndividual(true);
+                      setIsRestaurant(false);
+                    }} />
+                  </label>
+                  <label className="donor-label">
+                    Restaurant
+                    <input type="radio" name="donortype" checked={isRestaurant} onChange={() => {
+                      setIsIndividual(false);
+                      setIsRestaurant(true);
+                    }} />
+                  </label>
+                </div>
+
                 <label>Upload Image:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  required
-                />
-                
+                <input type="file" accept="image/*" onChange={handleImageUpload} required />
+
                 <div className="modal-buttons">
                   <button type="submit">{selectedItem ? "Update Food Donation" : "Submit Food Donation"}</button>
                   <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
@@ -191,10 +213,13 @@ const Donate = () => {
                   <img src={item.image} alt={item.name} />
                   <div className="overlay">
                     <h4>{item.name}</h4>
-                    <p><strong>Donor:</strong> {item.donor}</p>
+                    <p><strong>Quantity:</strong> {item.quantity}</p>
+                    <p><strong>Cuisine:</strong> {item.cuisine}</p>
+                    <p><strong>Pickup Time:</strong> {item.pickupTime}</p>
+                    <p><strong>Donor:</strong> {item.donorType}</p>
                     <p><strong>Phone:</strong> {item.phone}</p>
                     <p><strong>Location:</strong> {item.location}</p>
-                    <p><strong>Donation Date:</strong> {item.date}</p> 
+                    <p><strong>Date:</strong> {item.date}</p>
                   </div>
                   <button className="edit-button" onClick={() => handleEdit(item)}><FaEdit /></button>
                   <button className="delete-button" onClick={() => handleDelete(item.id)}><MdCancel /></button>
