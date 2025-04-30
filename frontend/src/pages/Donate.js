@@ -44,13 +44,13 @@ const Donate = () => {
     const donationData = {
       foodName,
       quantity,
-      cuisine,
-      pickupTime:formattedPickupTime,
+      category: cuisine,
+      pickupTime: formattedPickupTime,
       phone: userDetails.phone,
       location: userDetails.location,
-      imageUrl,
+      imageUrl: foodImage,
       donorType,
-      donationDate,
+      date: donationDate,
     };
 
     try {
