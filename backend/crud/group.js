@@ -10,6 +10,7 @@ const fieldTypeMap = {
     contact: sql.NVarChar,
   };
 
+  /*           CREATE             */
 router.post('/group/new', async (req, res) => {
     const { name, address, type, contact } = req.body;
     if(!name || !address || !type || !contact)
@@ -60,7 +61,7 @@ router.post('/group/new', async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 });
-
+  /*          READ            */
 router.get('/group/:id', async (req, res) => {
     try {
       const id = req.params.id;
@@ -72,7 +73,7 @@ router.get('/group/:id', async (req, res) => {
       
       var group = result.recordset[0];
       if (!group) 
-        return res.status(404).json({ message: 'User not found.' });
+        return res.status(404).json({ message: 'Group not found.' });
 
       return res.json(result.recordset[0]);
     } catch (error) {
@@ -80,4 +81,80 @@ router.get('/group/:id', async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
     }
   });
+/*          UPDATE            */
+router.put('/group/:id', async(req, res) => {
+  const id = req.params.id;
+  const { name, address, type, contact } = req.body;
+
+  if (!name && !address && !type && !contact) {
+    return res.status(400).json({ message: 'No fields provided.' });
+  }
+
+  try {    
+    const fields = { name, address, type, contact };
+    
+    const pool = await connectToDatabase();
+    const request = pool.request();
+
+    request.input('group_id', sql.Int, id);
+    const updateFields = [];
+    
+    //CHECK IF GROUPNAME
+    if(name !== undefined) {
+      const nameExist = await pool.request()
+      .input('name', sql.NVarChar, name)
+      .query('SELECT 1 FROM [FreeTake].[Group] WHERE name = @name');
+        
+      if(nameExist.recordset.length > 0) return res.status(400).json({ message: 'Name already taken.' });
+    }
+
+    // Update any given parameter
+    for (const [key, value] of Object.entries(fields)) {
+      if (value !== undefined) {
+        updateFields.push(`${key} = @${key}`);
+        const fieldType = fieldTypeMap[key];
+        request.input(key, fieldType, value);
+      }
+    }
+
+    const query = `UPDATE [FreeTake].[Group] 
+      SET ${updateFields.join(', ')}
+      WHERE group_id = @group_id`;
+
+    const result = await request.query(query);
+
+    if (result.rowsAffected[0] === 0) {
+      return res.status(404).json({ message: 'Group not found.' });
+    }
+
+    return res.json({ message: 'Group updated successfully' });
+
+  } catch(error) {
+    console.error('Error updating group:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.delete('/group/:id', async (req, res) => {
+  const id = req.params.id;
+  if (!id) return res.status(400).json({ message: 'Group ID is required.' });
+
+  try {
+    const pool = await connectToDatabase();
+
+    const result = await pool.request()
+    .input('group_id', sql.Int, id).query(`DELETE FROM [FreeTake].[group] WHERE group_id= @group_id`);
+
+    if (result.rowsAffected[0] === 0)
+      return res.status(404).json({ message: 'Group not found.' });
+
+
+    return res.json({ message: 'Group deleted successfully' });
+
+  } catch (error) {
+    console.error('Error deleting group:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
 export default router
