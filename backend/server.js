@@ -5,6 +5,7 @@ import bodyParser from 'body-parser'
 
 import userReq from './crud/user.js'
 import groupReq from './crud/group.js'
+import donateReq from './crud/donateserver.js'
 
 dotenv.config();
 
@@ -68,4 +69,5 @@ async function startServer() {
 }
 app.use('/', userReq);
 app.use('/', groupReq);
+app.use('/', donateReq)
 startServer();
