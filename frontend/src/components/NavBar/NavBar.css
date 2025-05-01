@@ -1,0 +1,138 @@
+nav {
+  width: 80%;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  width: 100%;
+}
+
+.nav-container div {
+  display: flex;
+}
+
+.nav-container .nav-links li {
+  list-style-type: none;
+}
+
+.nav-center {
+  position: absolute;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-right li, .nav-center li {
+  margin: 10px;
+}
+
+.nav-center li {
+  border: 2em;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #6EBE59;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s ease;
+}
+
+.nav-center li:active {
+  box-shadow: none;
+}
+
+.nav-center li:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.nav-center .styled-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #FCFCFC;
+  font-size: 1.5em;
+}
+
+.nav-right .styled-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #0B140E;
+  font-size: 1.5em;
+}
+
+.nav-right .styled-bookmark {
+  color: #6EBE59;
+  font-size: 1.8em;
+}
+
+.nav-right .styled-bookmark:hover {
+  color: #0A931F;
+  font-size: 1.8em;
+}
+
+.nav-links .brand:hover, .nav-right li:hover {
+  color: #0A931F;
+}
+
+.nav-links .brand:active, .nav-right li:active {
+  color: #6EBE59;
+}
+
+.nav-center li:hover {
+  background-color: #0A931F;
+}
+
+.nav-center li:active {
+  background-color: #6EBE59;
+}
+
+.nav-right .styled-link:hover {
+  color: #0A931F;
+}
+
+.nav-right .styled-link:active {
+  color: #6EBE59;
+}
+
+.brand-logo {
+  height: 90px;
+  width: 175px;
+}
+
+.brand-logo:hover {
+  filter: saturate(150%) hue-rotate(13deg) brightness(85%) contrast(80%);
+}
+
+.brand-logo:active {
+  filter: saturate(150%) hue-rotate(13deg) brightness(85%) contrast(80%);
+}
+
+.nav-right .styled-link.active, 
+.nav-right .styled-bookmark.active {
+  color: #0A931F; 
+}
+
+@media (max-width: 1125px) {
+  nav {
+    width: 90%;
+  }
+
+  .nav-center {
+    position: static;
+    transform: none;
+  }
+}
+
+@media (max-width: 875px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 385px) {
+  .nav-center li {
+    padding: 3px 7px;
+  }
+}
