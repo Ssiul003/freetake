@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
-import {getField, create} from './crudUtility.js'
+import {getField, create, update} from './crudUtility.js'
 
 const router = express.Router();
 
@@ -35,24 +35,20 @@ router.post('/user/new', async (req, res) => {
 */
     const { username, email, password, firstname, lastname, address } = req.body;
 
-    if (!username || !email || !password || !firstname || !lastname || !address) {
+    if (!username || !email || !password || !firstname || !lastname || !address)
         return res.status(400).json({ message: 'Missing required fields' });
-      }
     try {
       // This should be in front-end
         const { salt, hashedPassword } = hashPassword(password);
-        
-        const pool = await connectToDatabase();
 
-      // CHECK IF USERNAME EXIST
-      const user = await getField(pool, tableName, 'username', username);
+      // Check if username exist
+      const user = await getField(tableName, 'username', username);
         if(user.length > 0)
           return res.status(400).json({ message: 'Username already taken.' });
-      // There could be one for email
-        /* Email here */
+      // Check if email exist
+        /* Email check here */
 
       // Create user request into database
-        const request = await pool.request();
 
         const fields = {
           username,
@@ -65,7 +61,7 @@ router.post('/user/new', async (req, res) => {
           group_id: null, // User creates an account without a group
         };
     
-        create(request, tableName, fields, fieldTypeMap);
+        create(tableName, fields, fieldTypeMap);
 
         return res.send('User successfully created');
     } catch (err) {
@@ -76,11 +72,9 @@ router.post('/user/new', async (req, res) => {
 
 router.get('/user/:id', async (req, res) => {
   try {
-    const id = req.params.id;
-
-    const pool = await connectToDatabase();
+    const user_id = req.params.id;
     
-    var user = await getField(pool, tableName, 'user_id', id);
+    var user = await getField(tableName, 'user_id', user_id);
     user = user[0];
     if (!user) 
       return res.status(404).json({ message: 'User not found.' });
@@ -98,50 +92,27 @@ router.get('/user/:id', async (req, res) => {
 
 
 router.put('/user/:id', async(req, res) => {
-  const userId = req.params.id;
-  const { username, email, firstname, lastname, address } = req.body;
+  const user_id = req.params.id;
+  const { username, email, firstname, lastname, address, group_id } = req.body;
 
-  if (!username && !email && !firstname && !lastname && !address) {
+  if (!username && !email && !firstname && !lastname && !address && !group_id) {
     return res.status(400).json({ message: 'No fields provided.' });
   }
 
   try {    
     const fields = { username, email, firstname, lastname, address };
     
-    const pool = await connectToDatabase();
-    const request = pool.request();
-
-    request.input('user_id', sql.Int, userId);
-    const updateFields = [];
-    
-    //CHECK IF USERNAME EXIST
+    // If username were to be upated: Check if it already exist.
     if(username !== undefined) {
-      const usernameExist = await pool.request()
-      .input('username', sql.NVarChar, username)
-      .query('SELECT 1 FROM [FreeTake].[user] WHERE username = @username');
+      const user = await getField(tableName, 'username', username)
         
-      if(usernameExist.recordset.length > 0) return res.status(400).json({ message: 'Username already taken.' });
+      if(user.length > 0) return res.status(400).json({ message: 'Username already taken.' });
     }
 
     // Update any given parameter
-    for (const [key, value] of Object.entries(fields)) {
-      if (value !== undefined) {
-        updateFields.push(`${key} = @${key}`);
-        const fieldType = fieldTypeMap[key];
-        request.input(key, fieldType, value);
-      }
-    }
-
-    const query = `UPDATE [FreeTake].[user] 
-      SET ${updateFields.join(', ')}
-      WHERE user_id = @user_id`;
-
-    const result = await request.query(query);
-
-    if (result.rowsAffected[0] === 0) {
+    if (!(await update(tableName, 'user_id', user_id, fields, fieldTypeMap))) {
       return res.status(404).json({ message: 'User not found.' });
     }
-
     return res.json({ message: 'User updated successfully' });
 
   } catch(error) {
