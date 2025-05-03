@@ -66,3 +66,15 @@ export async function update(tableName, name, value, fields, fieldTypeMap){
       return false;
     } else return true;
 }
+
+export async function crudDelete(tableName, name, value){
+    const pool = await connectToDatabase();
+    
+    const result = await pool.request()
+    .input(`${name}`, sql.Int, value)
+    .query(`DELETE FROM [FreeTake].[${tableName}] WHERE ${name} = @${name}`);
+
+    if (result.rowsAffected[0] === 0) {
+        return false;
+      } else return true;
+}

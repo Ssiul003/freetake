@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
-import {getField, create, update} from './crudUtility.js'
+import {getField, create, update, crudDelete} from './crudUtility.js'
 
 const router = express.Router();
 
@@ -122,19 +122,13 @@ router.put('/user/:id', async(req, res) => {
 });
 
 router.delete('/user/:id', async (req, res) => {
-  const userId = req.params.id;
-  if (!userId) return res.status(400).json({ message: 'User ID is required.' });
+  const user_id = req.params.id;
+  if (!user_id) return res.status(400).json({ message: 'User ID is required.' });
 
   try {
-    const pool = await connectToDatabase();
-
-    const result = await pool.request()
-    .input('user_id', sql.Int, userId).query(`DELETE FROM [FreeTake].[user] WHERE user_id = @user_id`);
-
-    if (result.rowsAffected[0] === 0)
+    if (!(await crudDelete(tableName, 'user_id', user_id))) {
       return res.status(404).json({ message: 'User not found.' });
-
-
+    }
     return res.json({ message: 'User deleted successfully' });
 
   } catch (error) {
