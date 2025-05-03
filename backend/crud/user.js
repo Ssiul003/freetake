@@ -1,6 +1,5 @@
 import express from 'express';
 import crypto from 'crypto';
-import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
 import {getField, create, update, crudDelete} from './crudUtility.js'
 
@@ -25,7 +24,7 @@ const hashPassword = (password) => {
     return { salt, hashedPassword };
 };
 
-// CREATE
+/*                CREATE                    */
 router.post('/user/new', async (req, res) => {
 /*  This should be handled in the front end
       - Username is too short
@@ -38,18 +37,16 @@ router.post('/user/new', async (req, res) => {
     if (!username || !email || !password || !firstname || !lastname || !address)
         return res.status(400).json({ message: 'Missing required fields' });
     try {
-      // This should be in front-end
-        const { salt, hashedPassword } = hashPassword(password);
+        const { salt, hashedPassword } = hashPassword(password); // Move to front-end
 
-      // Check if username exist
-      const user = await getField(tableName, 'username', username);
+      // Does username already exist?
+      const user = await getField(tableName, 'username', username); 
         if(user.length > 0)
           return res.status(400).json({ message: 'Username already taken.' });
-      // Check if email exist
+      // Does email already exist?
         /* Email check here */
 
       // Create user request into database
-
         const fields = {
           username,
           email,
@@ -69,11 +66,12 @@ router.post('/user/new', async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
       }
 })
-
+/*                READ                   */
 router.get('/user/:id', async (req, res) => {
   try {
     const user_id = req.params.id;
     
+    // Does username exist?
     var user = await getField(tableName, 'user_id', user_id);
     user = user[0];
     if (!user) 
@@ -90,7 +88,7 @@ router.get('/user/:id', async (req, res) => {
   }
 });
 
-
+/*                UPDATE                  */
 router.put('/user/:id', async(req, res) => {
   const user_id = req.params.id;
   const { username, email, firstname, lastname, address, group_id } = req.body;
@@ -109,7 +107,7 @@ router.put('/user/:id', async(req, res) => {
       if(user.length > 0) return res.status(400).json({ message: 'Username already taken.' });
     }
 
-    // Update any given parameter
+    // Update given parameters
     if (!(await update(tableName, 'user_id', user_id, fields, fieldTypeMap))) {
       return res.status(404).json({ message: 'User not found.' });
     }
@@ -121,11 +119,13 @@ router.put('/user/:id', async(req, res) => {
   }
 });
 
+/*                DELETE                  */
 router.delete('/user/:id', async (req, res) => {
   const user_id = req.params.id;
   if (!user_id) return res.status(400).json({ message: 'User ID is required.' });
 
   try {
+    // Attempt to delete
     if (!(await crudDelete(tableName, 'user_id', user_id))) {
       return res.status(404).json({ message: 'User not found.' });
     }
