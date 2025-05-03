@@ -3,13 +3,20 @@ import sql from 'mssql';
 import { connectToDatabase } from '../server.js';
 
 const router = express.Router();
-/*
-  Don't try this
-  This creates a whole new table unrelated to the database
-  This will be rewritten to FreeTake.Food_Listing (Which has foreign keys to other information aswell)
-  */
+
+const fieldTypeMap = {
+  name: sql.NVarChar,
+  group_Id: sql.Int,
+  category: sql.NVarChar,
+  quantity: sql.Int,
+  expiration: sql.DateTime,
+  ImageData: sql.VarBinary
+}
+
   router.post('/donate', async (req, res) => {
-    const { foodName, category, quantity, date, imageUrl } = req.body;
+    const { name, group_Id, category, quantity, expiration, ImageData } = req.body;
+    if(!name || !group_Id || !category || !quantity || !expiration)
+        return res.status(400).json({message: "Missing required fields"});
   
     try {
       const pool = await connectToDatabase();
