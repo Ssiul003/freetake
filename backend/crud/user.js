@@ -2,7 +2,7 @@ import express from 'express';
 import crypto from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
-import {fieldExist, create} from './crudUtility.js'
+import {getField, create} from './crudUtility.js'
 
 const router = express.Router();
 
@@ -45,7 +45,8 @@ router.post('/user/new', async (req, res) => {
         const pool = await connectToDatabase();
 
       // CHECK IF USERNAME EXIST
-        if(await fieldExist(pool, tableName, 'username', username))
+      const user = await getField(pool, tableName, 'username', username);
+        if(user.length > 0)
           return res.status(400).json({ message: 'Username already taken.' });
       // There could be one for email
         /* Email here */
@@ -78,11 +79,9 @@ router.get('/user/:id', async (req, res) => {
     const id = req.params.id;
 
     const pool = await connectToDatabase();
-    const result = await pool.request()
-    .input('user_id', sql.NVarChar, id)
-    .query('SELECT * FROM [FreeTake].[user] WHERE user_id = @user_id');
     
-    var user = result.recordset[0];
+    var user = await getField(pool, tableName, 'user_id', id);
+    user = user[0];
     if (!user) 
       return res.status(404).json({ message: 'User not found.' });
 
@@ -90,7 +89,7 @@ router.get('/user/:id', async (req, res) => {
     delete user.Salt;
     delete user.Address;
     
-    return res.json(result.recordset[0]);
+    return res.json(user);
   } catch (error) {
     console.error('Error fetching user:', error);
     return res.status(500).json({ message: 'Server error' });

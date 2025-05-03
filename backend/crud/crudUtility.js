@@ -1,11 +1,21 @@
 import sql from 'mssql'
 
-export async function fieldExist(pool, tableName, name, value){
-    const fieldExist = await pool.request()
-    .input(name, sql.NVarChar, value)
-    .query('SELECT 1 FROM [FreeTake].['+ tableName +'] WHERE ' + name + ' = @' + name);
+/*
+            THESE ARE DYNAMICALLY BUILDING QUERIES 
+Later implementation must ensure no form of SQL injection can occur!
+Test implementation idea is to have a central config of some sort.
+List of valid columns per tableName?
+*/
+export async function getField(pool, tableName, name, value){
+    try {
+        const fieldExist = await pool.request()
+        .input(name, sql.NVarChar, value)
+        .query(`SELECT * FROM [FreeTake].[${tableName}] WHERE  ${name} = @${name}`);
 
-    return fieldExist.recordset.length > 0?true:false;
+        return fieldExist.recordset;
+    } catch(err) {
+        return [];
+    }
 }
 
 export async function create(request, tableName, fields, fieldTypeMap){
@@ -21,7 +31,7 @@ export async function create(request, tableName, fields, fieldTypeMap){
       } else { return res.status(500).json({ message: 'New parameter not defined.' }); }
     }
 
-    const query = `INSERT INTO [FreeTake].[`+ tableName +`] (${fieldNames.join(', ')})
+    const query = `INSERT INTO [FreeTake].[${tableName}] (${fieldNames.join(', ')})
       VALUES (${fieldParams.join(', ')})`;
 
     await request.query(query);
