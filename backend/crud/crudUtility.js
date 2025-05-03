@@ -1,9 +1,9 @@
 import sql from 'mssql'
 
-export async function fieldExist(pool, table, name, value){
+export async function fieldExist(pool, tableName, name, value){
     const fieldExist = await pool.request()
     .input(name, sql.NVarChar, value)
-    .query('SELECT 1 FROM [FreeTake].['+ table +'] WHERE ' + name + ' = @' + name);
+    .query('SELECT 1 FROM [FreeTake].['+ tableName +'] WHERE ' + name + ' = @' + name);
 
     return fieldExist.recordset.length > 0?true:false;
 }
@@ -21,7 +21,7 @@ export async function create(request, tableName, fields, fieldTypeMap){
       } else { return res.status(500).json({ message: 'New parameter not defined.' }); }
     }
 
-    const query = `INSERT INTO [FreeTake].[user] (${fieldNames.join(', ')})
+    const query = `INSERT INTO [FreeTake].[`+ tableName +`] (${fieldNames.join(', ')})
       VALUES (${fieldParams.join(', ')})`;
 
     await request.query(query);
