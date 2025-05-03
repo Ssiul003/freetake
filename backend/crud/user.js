@@ -57,7 +57,6 @@ router.post('/user/new', async (req, res) => {
           address,
           group_id: null, // User creates an account without a group
         };
-    
         create(tableName, fields, fieldTypeMap);
 
         return res.send('User successfully created');
@@ -74,8 +73,9 @@ router.get('/user/:id', async (req, res) => {
     // Does username exist?
     var user = await getField(tableName, 'user_id', user_id);
     user = user[0];
-    if (!user) 
+    if (!user) {
       return res.status(404).json({ message: 'User not found.' });
+    }
 
     delete user.Hashedpassword;
     delete user.Salt;
@@ -102,7 +102,7 @@ router.put('/user/:id', async(req, res) => {
     
     // If username were to be upated: Check if it already exist.
     if(username !== undefined) {
-      const user = await getField(tableName, 'username', username)
+      const user = await getField(tableName, 'username', username);
         
       if(user.length > 0) return res.status(400).json({ message: 'Username already taken.' });
     }
