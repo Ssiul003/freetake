@@ -2,8 +2,11 @@ import express from 'express';
 import crypto from 'crypto';
 import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
+import {fieldExist, create} from './crudUtility.js'
 
 const router = express.Router();
+
+const tableName = 'user';
 
 const fieldTypeMap = {
   username: sql.NVarChar,
@@ -21,7 +24,6 @@ const hashPassword = (password) => {
     const hashedPassword = crypto.pbkdf2Sync(password, salt, 100000, 64, 'sha256').toString('hex');
     return { salt, hashedPassword };
 };
-
 
 // CREATE
 router.post('/user/new', async (req, res) => {
@@ -43,14 +45,9 @@ router.post('/user/new', async (req, res) => {
         const pool = await connectToDatabase();
 
       // CHECK IF USERNAME EXIST
-        const usernameExist = await pool.request()
-        .input('username', sql.NVarChar, username)
-        .query('SELECT 1 FROM [FreeTake].[user] WHERE username = @username');
-
-        if(usernameExist.recordset.length > 0) 
+        if(await fieldExist(pool, tableName, 'username', username))
           return res.status(400).json({ message: 'Username already taken.' });
-
-        // There could be one for email
+      // There could be one for email
         /* Email here */
 
       // Create user request into database
@@ -66,24 +63,8 @@ router.post('/user/new', async (req, res) => {
           address,
           group_id: null, // User creates an account without a group
         };
-
-        const fieldNames = [];
-        const fieldParams = [];
     
-        for (const [key, value] of Object.entries(fields)) {
-          // Failsafe
-          if (value !== undefined) {
-            fieldNames.push(key);
-            fieldParams.push(`@${key}`);
-            const fieldType = fieldTypeMap[key] || sql.NVarChar;
-            request.input(key, fieldType, value);
-          } else { return res.status(500).json({ message: 'New parameter not defined.' }); }
-        }
-    
-        const query = `INSERT INTO [FreeTake].[user] (${fieldNames.join(', ')})
-          VALUES (${fieldParams.join(', ')})`;
-    
-        await request.query(query);
+        create(request, tableName, fields, fieldTypeMap);
 
         return res.send('User successfully created');
     } catch (err) {
