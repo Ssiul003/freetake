@@ -3,9 +3,14 @@ import { connectToDatabase } from '../server.js'
 
 /*
             THESE ARE DYNAMICALLY BUILDING QUERIES 
-Later implementation must ensure no form of SQL injection can occur!
-Test implementation idea is to have a central config of some sort.
-List of valid columns per tableName?
+      Hardcoded Values (Safe)
+tableName: string respective to the .js
+fieldTypeMap: mapping column to sql type
+name: column written in the function
+
+      User Input (Cautious)
+value: data from user input (ie username)
+fields: list of column AND user input
 */
 export async function getField(tableName, name, value){
     try {
