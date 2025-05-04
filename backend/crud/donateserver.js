@@ -13,42 +13,105 @@ const fieldTypeMap = {
   ImageData: sql.VarBinary
 }
 
-  router.post('/donate', async (req, res) => {
-    const { name, group_Id, category, quantity, expiration, ImageData } = req.body;
-    if(!name || !group_Id || !category || !quantity || !expiration)
-        return res.status(400).json({message: "Missing required fields"});
-  
-    try {
-      const pool = await connectToDatabase();
-      await pool.request()
-        .input('Category', sql.NVarChar, category)
-        .input('Quantity', sql.Int, parseInt(quantity))
-        .input('Date', sql.DateTime, new Date(date))
-        .input('Image', sql.NVarChar, imageUrl)
-        .input('FoodName', sql.NVarChar, foodName)
-        .query(`
-          INSERT INTO FreeTake.Food_Listing (Category, Quantity, Date, Image, FoodName)
-          VALUES (@Category, @Quantity, @Date, @Image, @FoodName)
-        `);
-  
-      res.status(200).json({ message: "Food listing saved successfully" });
-    } catch (err) {
-      console.error("Insert error:", err);
-      res.status(500).json({ error: "Failed to save food listing" });
+router.post('/donate', async (req, res) => {
+  const { name, category, quantity, expiration, pickupTime, imageUrl } = req.body;
+
+  if (!name || !category || !quantity || !expiration || !pickupTime || !imageUrl) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const pool = await connectToDatabase();
+    const expirationDateTime = new Date(`${expiration.split('T')[0]}T${pickupTime}`);
+
+    let imageBuffer = null;
+    if (imageUrl.startsWith("data:image/")) {
+      const base64Data = imageUrl.split(",")[1];
+      imageBuffer = Buffer.from(base64Data, 'base64');
     }
-  });
-  
-  //GET route to fetch all food listings
-  router.get('/donate', async (req, res) => {
-    try {
-      const pool = await connectToDatabase();
-      const result = await pool.request()
-        .query('SELECT * FROM FreeTake.Food_Listing ORDER BY Date DESC');
-      res.status(200).json(result.recordset);
-    } catch (err) {
-      console.error("Fetch error:", err);
-      res.status(500).json({ error: "Failed to fetch food listings" });
+
+    await pool.request()
+      .input('name', fieldTypeMap.name, name)
+      .input('category', fieldTypeMap.category, category)
+      .input('quantity', fieldTypeMap.quantity, parseInt(quantity))
+      .input('expiration', fieldTypeMap.expiration, expirationDateTime)
+      .input('ImageData', fieldTypeMap.ImageData, imageBuffer)
+      .query(`
+        INSERT INTO FreeTake.Food_Listing (Name, Category, Quantity, ExpirationDate, ImageData)
+        VALUES (@name, @category, @quantity, @expiration, @ImageData)
+      `);
+
+    res.status(200).json({ message: "Food listing saved successfully" });
+  } catch (err) {
+    console.error("Insert error:", err);
+    res.status(500).json({ error: "Failed to save food listing" });
+  }
+});
+
+
+router.get('/donate', async (req, res) => {
+  try {
+    const pool = await connectToDatabase();
+    const result = await pool.request()
+      .query('SELECT * FROM FreeTake.Food_Listing ORDER BY ExpirationDate DESC');
+    res.status(200).json(result.recordset);
+  } catch (err) {
+    console.error("Fetch error:", err);
+    res.status(500).json({ error: "Failed to fetch food listings" });
+  }
+});
+router.put('/donate/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, category, quantity, expiration, pickupTime, imageUrl } = req.body;
+
+  if (!name || !category || !quantity || !expiration || !pickupTime || !imageUrl) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const pool = await connectToDatabase();
+    const expirationDateTime = new Date(`${expiration.split('T')[0]}T${pickupTime}`);
+
+    let imageBuffer = null;
+    if (imageUrl.startsWith("data:image/")) {
+      const base64Data = imageUrl.split(",")[1];
+      imageBuffer = Buffer.from(base64Data, 'base64');
     }
-  });
+
+    await pool.request()
+      .input('group_Id', fieldTypeMap.group_Id, parseInt(id))
+      .input('name', fieldTypeMap.name, name)
+      .input('category', fieldTypeMap.category, category)
+      .input('quantity', fieldTypeMap.quantity, parseInt(quantity))
+      .input('expiration', fieldTypeMap.expiration, expirationDateTime)
+      .input('ImageData', fieldTypeMap.ImageData, imageBuffer)
+      .query(`
+        UPDATE FreeTake.Food_Listing 
+        SET Name = @name, Category = @category, Quantity = @quantity, ExpirationDate = @expiration, ImageData = @ImageData 
+        WHERE Listing_ID = @group_Id
+      `);
+
+    res.status(200).json({ message: "Food listing updated successfully" });
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).json({ error: "Failed to update food listing" });
+  }
+});
+
+router.delete('/donate/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const pool = await connectToDatabase();
+    await pool.request()
+      .input('group_Id', fieldTypeMap.group_Id, parseInt(id))
+      .query('DELETE FROM FreeTake.Food_Listing WHERE Listing_ID = @group_Id');
+
+    res.status(200).json({ message: "Food listing deleted successfully" });
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).json({ error: "Failed to delete food listing" });
+  }
+});
+
   
-  export default router;

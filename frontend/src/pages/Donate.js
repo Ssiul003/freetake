@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import "../pages-styles/Donate.css";
@@ -23,8 +24,15 @@ const Donate = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setFoodImage(URL.createObjectURL(file));
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFoodImage(reader.result); 
+      };
+      reader.readAsDataURL(file);
+    }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,8 +46,6 @@ const Donate = () => {
     const imageUrl = foodImage;
     const options = { timeStyle: 'short', hour12: true };
     const formattedPickupTime = new Date(`1970-01-01T${pickupTime}:00`).toLocaleTimeString('en-US', options);
-    
-
 
     const donationData = {
       foodName,
@@ -48,10 +54,11 @@ const Donate = () => {
       pickupTime: formattedPickupTime,
       phone: userDetails.phone,
       location: userDetails.location,
-      imageUrl: foodImage,
+      imageUrl: foodImage,  
       donorType,
       date: donationDate,
     };
+    
 
     try {
       const response = await fetch('http://localhost:3000/donate', {
@@ -233,4 +240,4 @@ const Donate = () => {
   );
 };
 
-export default Donate;
+export default Donate; 
