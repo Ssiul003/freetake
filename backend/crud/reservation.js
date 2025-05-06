@@ -68,7 +68,7 @@ router.post('/reservation/:id', async(req, res) => {
           */
           return res.json({ message: 'Reservation updated successfully' });
     } catch(error) {
-        console.error('Error updating user:', error);
+        console.error('Error updating reservation:', error);
         return res.status(500).json({ message: 'Server error' });
     }
 });
