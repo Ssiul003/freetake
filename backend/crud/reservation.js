@@ -63,6 +63,9 @@ router.post('/reservation/:id', async(req, res) => {
         if (!(await update(tableName, 'reservation_id', reservation_id, fields, fieldTypeMap))) {
             return res.status(404).json({ message: 'reservation not found.' });
           }
+          /*
+            If the reservation is made, this should generate reservation details
+          */
           return res.json({ message: 'User updated successfully' });
     } catch(error) {
         console.error('Error updating user:', error);
