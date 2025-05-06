@@ -1,7 +1,6 @@
 import express from 'express';
 import sql from 'mssql';
 import {getField, create, update, crudDelete} from './crudUtility.js';
-import e from 'express';
 
 const router = express.Router();
 
