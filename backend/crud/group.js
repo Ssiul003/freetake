@@ -1,6 +1,6 @@
 import express from 'express';
-import { connectToDatabase } from '../server.js'
 import sql from 'mssql'
+import {getField, create, update, crudDelete} from './crudUtility.js'
 
 const router = express.Router();
 
@@ -12,9 +12,6 @@ const fieldTypeMap = {
     type: sql.NVarChar,
     contact: sql.NVarChar,
   };
-/* 
-               TO BE TESTED!!!
-*/
 /*                CREATE                    */
 router.post('/group/new', async (req, res) => {
     const { name, address, type, contact } = req.body;
@@ -89,8 +86,8 @@ router.put('/group/:id', async(req, res) => {
 });
 
 router.delete('/group/:id', async (req, res) => {
-  const id = req.params.id;
-  if (!id) return res.status(400).json({ message: 'Group ID is required.' });
+  const group_id = req.params.id;
+  if (!group_id) return res.status(400).json({ message: 'Group ID is required.' });
 
   try {
     if(!(await crudDelete(tableName, 'group_id', group_id))) {
