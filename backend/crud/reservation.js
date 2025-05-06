@@ -11,6 +11,9 @@ const fieldTypeMap = {
     listing_id: sql.Int,
     accepted: sql.Bit,
 }
+/*
+                TO BE TESTED
+*/
 /*                CREATE                    */
 router.post('/reservation/new', async (req, res) => {
     const{ group_id, listing_id } = req.body;
