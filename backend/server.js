@@ -1,13 +1,15 @@
 import sql from 'mssql';
 import dotenv from 'dotenv';
 import express from 'express';
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
+import cors from 'cors'
 
 import userReq from './crud/user.js'
 import groupReq from './crud/group.js'
 import donateReq from './crud/donateserver.js'
 
 dotenv.config();
+
 
 const API_PORT = process.env.API_PORT || 3000;
 
@@ -43,6 +45,15 @@ const config = {
 let pool = null;
 const app = express();
 app.use(bodyParser.json());
+
+/*
+This is for easier testing on localhost.
+Run the backend first (localhost:3000)
+Then run the frontend on a seperate port (localhost:3001)
+*/
+app.use(cors({
+  origin: 'http://localhost:3001'
+}));
 
 // Allows connection to database, for CRUD operations
 export const connectToDatabase = async() => {
