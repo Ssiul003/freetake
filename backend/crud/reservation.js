@@ -10,6 +10,8 @@ const fieldTypeMap = {
     group_id: sql.Int,
     listing_id: sql.Int,
     accepted: sql.Bit,
+    datetime: sql.DateTime,
+    status: sql.NVarChar
 }
 /*
                 TO BE TESTED
@@ -51,22 +53,32 @@ router.get('/reservation/:id', async (req, res) => {
 });
 
 /*                UPDATE                  */
-// Should only update the accepted status
-// Can't really 'transfer' reservation nor modify its id.
+/*
+Should only modify the accepted status.
+Can either be accepted, or be unaccepted due to outside reasons. (Relisted)
+
+*/
 router.post('/reservation/:id', async(req, res) => {
     const reservation_id = req.params.id;
-    const { accepted } = req.body;
-    if(!accepted) return req.sstatus(400).json({ message: 'No fields provided.'});
+    const { accepted, datetime } = req.body;
+    if(!accepted) return req.status(400).json({ message: 'No fields provided.'});
     try {
         const fields = { accepted };
-
         if (!(await update(tableName, 'reservation_id', reservation_id, fields, fieldTypeMap))) {
             return res.status(404).json({ message: 'reservation not found.' });
           }
-          /*
-            If the reservation is made, this should generate reservation details
-          */
-          return res.json({ message: 'Reservation updated successfully' });
+          // Reservation details are generated.
+          if(accepted){
+            if(!datetime) return req.status(400).json({ message: 'Accepted reservation without enlisted date. Please define a date.'});
+            const reservation_details = {
+                reservation_id,
+                datetime,
+                status: "Undelivered"
+            }
+            create('ReservationDetails', reservation_details, fieldTypeMap)
+            return res.json({ message: 'Reservation updated successfully. Generated reservation details.' });
+          }
+          return res.json({ message: 'Reservation updated successfully.' });
     } catch(error) {
         console.error('Error updating reservation:', error);
         return res.status(500).json({ message: 'Server error' });

@@ -11,15 +11,56 @@ const fieldTypeMap = {
     anticipatedDate: sql.DateTime,
     status: sql.NVarChar
 }
-
-router.post('/reservation_details/new', async(req, res) => {
-    const { reservation_id, anticipatedDate } = req.body;
-
-    if (!reservation_id || !anticipatedDate ) return res.status(400).json({ message: 'Missing required fields' });
+/*          CREATE             */
+/*
+There's no 'creating' reservation details, they're
+generated upon a successful reservation.
+*/
+/*          READ            */
+router.get('/reservation_details/:id', async (req, res) => {
     try {
-    } catch(error){
-        // Reservation without details sounds dangerous
-        console.error('Error creating user:', err);
-        return res.status(500).json({ message: 'Server error' });
+      const reservation_id = req.params.id;
+      
+      var reservation = await getField(tableName, 'reservation_id', reservation_id);
+      reservation = reservation[0];
+      if(!reservation) {
+          return res.status(404).json({ message: 'Reservation details not found.' });
+      }
+
+      return res.json(reservation);
+    } catch (error) {
+      console.error('Error fetching group:', error);
+      return res.status(500).json({ message: 'Server error' });
     }
-});
+  });
+/*                UPDATE              */
+router.put('/reservation_details/:id', async(req, res) => {
+    const reservation_id = req.params.id;
+    const { anticipatedDate, status } = req.body;
+  
+    if (!anticipatedDate || !status) {
+      return res.status(400).json({ message: 'No fields provided.' });
+    }
+  
+    try {    
+      const fields = { 
+        anticipatedDate, 
+        status
+        };
+      
+      if(!(await update(tableName, 'reservation_id', reservation_id, fields, fieldTypeMap))) {
+        return res.status(404).json({ message: 'Reservation details not found.'});
+      }
+      return res.json({ message: 'Reservation details updated successfully' });
+  
+    } catch(error) {
+      console.error('Error updating Reservation:', error);
+      return res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+/*          DELETE              */
+/*
+There's no deleting reservation details, they're like receipts.
+Better to hold onto this information.
+*/
