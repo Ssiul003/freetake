@@ -7,6 +7,8 @@ import cors from 'cors'
 import userReq from './crud/user.js'
 import groupReq from './crud/group.js'
 import donateReq from './crud/donateserver.js'
+import reservationReq from './crud/reservation.js'
+import reservationDetailsReq from './crud/reservation_details.js'
 
 dotenv.config();
 
@@ -90,4 +92,6 @@ async function startServer() {
 app.use('/', userReq);
 app.use('/', groupReq);
 app.use('/', donateReq)
+app.use('/', reservationReq);
+app.use('/', reservationDetailsReq);
 startServer();
