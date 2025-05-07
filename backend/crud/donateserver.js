@@ -48,18 +48,37 @@ router.post('/donate', async (req, res) => {
   }
 });
 
-
 router.get('/donate', async (req, res) => {
   try {
     const pool = await connectToDatabase();
     const result = await pool.request()
-      .query('SELECT * FROM FreeTake.Food_Listing ORDER BY ExpirationDate DESC');
-    res.status(200).json(result.recordset);
+      .query('SELECT Listing_ID, Name, Category, Quantity, ExpirationDate, ImageData FROM FreeTake.Food_Listing ORDER BY ExpirationDate DESC');
+
+    const listings = result.recordset.map((row) => {
+      let base64Image = null;
+      if (row.ImageData) {
+        base64Image = Buffer.from(row.ImageData).toString('base64');
+      }
+
+      return {
+        id: row.Listing_ID,
+        name: row.Name,
+        category: row.Category,
+        quantity: row.Quantity,
+        expiration: row.ExpirationDate?.toISOString().split("T")[0],
+        pickupTime: row.ExpirationDate?.toISOString().split("T")[1]?.slice(0, 5), // "HH:mm"
+        image: base64Image ? `data:image/jpeg;base64,${base64Image}` : null,
+        date: row.ExpirationDate?.toLocaleString()
+      };
+    });
+
+    res.status(200).json(listings);
   } catch (err) {
     console.error("Fetch error:", err);
     res.status(500).json({ error: "Failed to fetch food listings" });
   }
 });
+
 router.put('/donate/:id', async (req, res) => {
   const { id } = req.params;
   const { name, category, quantity, expiration, pickupTime, imageUrl } = req.body;
