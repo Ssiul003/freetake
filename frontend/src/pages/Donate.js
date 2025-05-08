@@ -12,7 +12,7 @@ const Donate = () => {
   const [pickupTime, setPickupTime] = useState("");
   const [isIndividual, setIsIndividual] = useState(false);
   const [isRestaurant, setIsRestaurant] = useState(false);
-  const [userDetails, setUserDetails] = useState({ phone: "", location: "" });
+  const [userDetails, setUserDetails] = useState({ phone: "", address: "" });
   const [foodImage, setFoodImage] = useState(null);
   const [donatedItems, setDonatedItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -34,7 +34,7 @@ const Donate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!foodName || !quantity || !cuisine || !expirationDate || !pickupTime || !userDetails.phone || !userDetails.location || !foodImage || (!isIndividual && !isRestaurant)) {
+    if (!foodName || !quantity || !cuisine || !expirationDate || !pickupTime || !userDetails.phone || !userDetails.address || !foodImage || (!isIndividual && !isRestaurant)) {
       alert("Please fill in all fields.");
       return;
     }
@@ -43,11 +43,15 @@ const Donate = () => {
 
     const donationData = {
       name: foodName,
+      groupId:1,
       category: cuisine,
       quantity: quantity,
       expiration: expirationDate,
       pickupTime: pickupTime,
       imageUrl: foodImage,
+      donorType: donorType,
+      phone: userDetails.phone,
+      location: userDetails.address, 
     };
 
     try {
@@ -77,7 +81,7 @@ const Donate = () => {
         expiration: expirationDate,
         pickupTime,
         phone: userDetails.phone,
-        location: userDetails.location,
+        location: userDetails.address, 
         donorType,
         image: foodImage,
         date: new Date().toLocaleString(),
@@ -101,7 +105,7 @@ const Donate = () => {
       setPickupTime("");
       setIsIndividual(false);
       setIsRestaurant(false);
-      setUserDetails({ phone: "", location: "" });
+      setUserDetails({ phone: "", address: "" }); 
       setFoodImage(null);
     } catch (err) {
       console.error(err);
@@ -132,7 +136,7 @@ const Donate = () => {
     setPickupTime(item.pickupTime);
     setIsIndividual(item.donorType === "Individual");
     setIsRestaurant(item.donorType === "Local Restaurant");
-    setUserDetails({ phone: item.phone, location: item.location });
+    setUserDetails({ phone: item.phone, address: item.location }); 
     setFoodImage(item.image);
     setShowModal(true);
   };
@@ -179,8 +183,8 @@ const Donate = () => {
                 <label>Phone Number:</label>
                 <input type="tel" name="phone" value={userDetails.phone} onChange={handleChange} required />
 
-                <label>Location:</label>
-                <input type="text" name="location" value={userDetails.location} onChange={handleChange} required />
+                <label>Address:</label> 
+                <input type="text" name="address" value={userDetails.address} onChange={handleChange} required /> 
 
                 <label>Donor:</label>
                 <div className="donor-type-options">
@@ -225,7 +229,7 @@ const Donate = () => {
                     <p><strong>Pickup Time:</strong> {item.pickupTime}</p>
                     <p><strong>Donor:</strong> {item.donorType}</p>
                     <p><strong>Phone:</strong> {item.phone}</p>
-                    <p><strong>Location:</strong> {item.location}</p>
+                    <p><strong>Address:</strong> {item.location}</p>
                     <p><strong>Date:</strong> {item.date}</p>
                   </div>
                   <button className="edit-button" onClick={() => handleEdit(item)}><FaEdit /></button>
@@ -241,3 +245,4 @@ const Donate = () => {
 };
 
 export default Donate;
+

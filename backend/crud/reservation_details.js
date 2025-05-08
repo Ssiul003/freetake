@@ -64,3 +64,4 @@ router.put('/reservation_details/:id', async(req, res) => {
 There's no deleting reservation details, they're like receipts.
 Better to hold onto this information.
 */
+export default router;
