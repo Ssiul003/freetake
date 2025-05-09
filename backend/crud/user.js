@@ -32,10 +32,11 @@ router.post('/user/new', async (req, res) => {
       - Email is legitiment (Maybe an external dependency to check this?)
       - Hashing (To not send unencrypted data)
 */
-    const { username, email, password, firstname, lastname, address } = req.body;
+    const { username, email, password, firstName, lastName, address } = req.body;
 
-    if (!username || !email || !password || !firstname || !lastname || !address)
+    if (!username || !email || !password || !firstName || !lastName || !address)
         return res.status(400).json({ message: 'Missing required fields' });
+  console.log('Request body:', req.body);
     try {
         const { salt, hashedPassword } = hashPassword(password); // Move to front-end
 
@@ -52,14 +53,14 @@ router.post('/user/new', async (req, res) => {
           email,
           hashedpassword: hashedPassword,
           salt,
-          firstname,
-          lastname,
+          firstName,
+          lastName,
           address,
           group_id: null, // User creates an account without a group
         };
         create(tableName, fields, fieldTypeMap);
 
-        return res.send('User successfully created');
+        return res.json({ message: 'User successfully created'});
     } catch (err) {
         console.error('Error creating user:', err);
         return res.status(500).json({ message: 'Server error' });

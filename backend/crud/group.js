@@ -31,7 +31,7 @@ router.post('/group/new', async (req, res) => {
          };
     create(tableName, fields, fieldTypeMap);
     
-    return res.send('Group successfully created');
+    return res.json({ message: 'Group successfully created' });
 
     } catch (error) {
         console.error('Error creating group:', error);
