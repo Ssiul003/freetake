@@ -21,7 +21,7 @@ export default function LoginForm(
 					placeholder="Enter your password"
 					required />
 			</div>
-			<button type="submit">Login</button>
+			<button className="login-submit-btn" type="submit">Login</button>
 			<p>
 				<button className="forgot-password-btn" onClick={handleForgotPassword}>
 					Forgot Password?

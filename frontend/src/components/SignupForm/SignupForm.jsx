@@ -76,6 +76,15 @@ export default function SignupForm(
 					showPassword={showPassword}
 					toggleShowPassword={toggleShowPassword}
 				/>
+				<CustomField
+					label="Address"
+					name="address"
+					type="text"
+					placeholder="Enter your address"
+					formInput={formInput}
+					formError={formError}
+					handleSignupInput={handleSignupInput}
+				/>
 				<button type="submit" onClick={handleSignup} >Sign Up</button>
 			</form>
 		</div>
@@ -98,7 +107,10 @@ const CustomField = ( {
 	return(
 		<div>
 			<label>{label}:
-				<p onClick={toggleShowPassword}>{showPassword ? "hide password?" : "show password?"}</p>
+				{
+					toggleShowPassword ? <p onClick={toggleShowPassword}>{showPassword ? "hide password?" : "show password?"}</p>
+					: null
+				}
 			</label>
 			<input
 				name={name}
