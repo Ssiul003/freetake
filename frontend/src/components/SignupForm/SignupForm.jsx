@@ -51,6 +51,16 @@ export default function SignupForm(
 					handleSignupInput={handleSignupInput}
 				/>
 				<CustomField
+					label="Group ID"
+					name="groupId"
+					type="number"
+					placeholder="Enter Group ID"
+					errorMessage="Group ID must be a number"
+					formInput={formInput}
+					formError={formError}
+					handleSignupInput={handleSignupInput}
+				/>
+				<CustomField
 					label="Password"
 					name="password"
 					type={showPassword ? "text" : "password"}
