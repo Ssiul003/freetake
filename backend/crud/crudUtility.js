@@ -39,7 +39,7 @@ export async function create(tableName, fields, fieldTypeMap){
         fieldParams.push(`@${key}`);
         const fieldType = fieldTypeMap[key] || sql.NVarChar;
         request.input(key, fieldType, value);
-      } else { return res.status(500).json({ message: 'New parameter not defined.' }); }
+      } else { throw new Error(`Missing value for field: ${key}`) }
     }
 
     const query = `INSERT INTO [FreeTake].[${tableName}] (${fieldNames.join(', ')})

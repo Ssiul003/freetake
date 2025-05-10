@@ -224,3 +224,7 @@ form button:hover {
   font-weight: bold;
 }
 
+.modal-content{
+  max-height: 90vh;
+  overflow-y: auto;
+}

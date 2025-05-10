@@ -44,13 +44,13 @@ body {
     color: #0a931f;
 }
 
-.authentication-form button{
+.authentication-form button, .login-submit-btn{
     background-color: #6EBE59;
     margin: 0.5em;
 
 }
 
-.authentication-form button:hover{
+.authentication-form button:hover, .login-submit-btn:hover{
     background-color: #0a931f;
 }
 
@@ -111,6 +111,7 @@ body {
 
 .forgot-password-btn:hover, .back-to-login-btn:hover{
     color: #0B140E;
+    background-color: transparent;
 }
 
 @media (max-width: 545px){

@@ -26,8 +26,8 @@ router.post('/reservation/new', async (req, res) => {
             listing_id,
             accepted: 0
         }
-        create(tableName, fields, fieldTypeMap);
-        return res.send('Reservation successfully created');
+        await create(tableName, fields, fieldTypeMap);
+        return res.json({message: 'Reservation successfully created'});
     } catch (error) {
         console.error('Error creating reservation:', error);
         return res.status(500).json({ message: 'Server error' });
