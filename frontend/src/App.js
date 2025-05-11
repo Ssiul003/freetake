@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import { useState } from "react";
 import './App.css';
 import Home from "./pages/Home";
@@ -13,13 +13,16 @@ import Bookmark from "./pages/Bookmark";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const hideNavbar = loading && window.location.pathname === '/freetake'
 
   return (
     <Router>
       <div className="container">
-        <Navbar isLoggedIn={isLoggedIn} />
+        {!hideNavbar && <Navbar isLoggedIn={isLoggedIn} />}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/freetake" element={<Home setLoading={setLoading}/>} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/account" element={<Account setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/donate" element={<Donate />} />
