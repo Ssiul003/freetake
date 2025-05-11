@@ -1,10 +1,13 @@
 import express from 'express'
 import crypto from 'crypto'
-import { getField } from './crudUtility.js'
+import { getField } from '../crud/crudUtility.js'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv';
 
 const router = express.Router();
 const tableName = 'user';
+
+dotenv.config();
 
 router.post('/login', async (req, res) => {
     try {
@@ -19,9 +22,14 @@ router.post('/login', async (req, res) => {
             const token = jwt.sign(
                 { id: user.id, username: user.username },
                 process.env.SECRET_KEY,
-                { expiresIn: '1h' } // Token expires in 1 hour
+                { expiresIn: '1h' }
             );
-            return res.json({ token });
+            return res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 3600000 // About an hour
+            }).json({ success: true });
         } else {
             return res.status(400).json({ message: 'Fields does not match records'});
         }
