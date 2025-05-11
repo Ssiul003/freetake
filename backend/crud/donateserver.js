@@ -4,7 +4,7 @@ import { connectToDatabase } from '../server.js';
 import { getField, create, update, crudDelete } from './crudUtility.js';
 
 const router = express.Router();
-const tableName = 'FreeTake.Food_Listing';
+const tableName = 'Food_Listing';
 const primaryKey = 'Listing_ID';
 
 const fieldTypeMap = {
