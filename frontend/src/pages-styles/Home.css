@@ -259,6 +259,7 @@ h3 {
   top: -100px;
   width: 40px;
   pointer-events: none;
+  will-change: transform, opacity;
   animation-name: fall;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -270,5 +271,22 @@ h3 {
   .home-page .receive-link h2 {
     font-size: 1em;
     padding: 3px 7px 3px 7px;
+  }
+}
+
+.loading-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fades 2s ease-in-out infinite;
+}
+
+@keyframes fades{
+  0%, 100%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0;
   }
 }
