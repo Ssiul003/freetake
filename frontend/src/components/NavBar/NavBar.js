@@ -10,7 +10,7 @@ const Navbar = () => {
       <ul className="nav-container">
         <div className="nav-links">
           <li>
-            <NavLink to="/" className="brand styled-link" activeClassName="active">
+            <NavLink to="/freetake" className="brand styled-link" activeClassName="active">
               <img className='brand-logo' src={logo} alt='FreeTake' />
             </NavLink>
           </li>
