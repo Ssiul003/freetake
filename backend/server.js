@@ -55,7 +55,8 @@ Run the backend first (localhost:3000)
 Then run the frontend on a seperate port (localhost:3001)
 */
 app.use(cors({
-  origin: 'http://localhost:3001'
+  origin: 'http://localhost:3001',
+  credentials: true
 }));
 
 // Allows connection to database, for CRUD operations

@@ -1,7 +1,8 @@
 import express from 'express';
 import sql from 'mssql';
 import { connectToDatabase } from '../server.js';
-import { getField, create, update, crudDelete } from './crudUtility.js';
+import { create, update, crudDelete } from './crudUtility.js';
+import { authenticate } from '../authentication/auth.js';
 
 const router = express.Router();
 const tableName = 'Food_Listing';
@@ -12,11 +13,14 @@ const fieldTypeMap = {
     category: sql.NVarChar,
     quantity: sql.Int,
     expiration: sql.DateTime,
-    ImageData: sql.VarBinary
+    ImageData: sql.VarBinary,
+    Group_Id: sql.Int
 };
 
-router.post('/donate', async (req, res) => {
+router.post('/donate', authenticate, async (req, res) => {
     const { name, category, quantity, expiration, pickupTime, imageUrl } = req.body;
+    const group_id = req.user.id;
+    if(!group_id) return res.status(400).json({ message: "Cannot make a listing. Please log in." });
 
     if (!name || !category || !quantity || !expiration || !pickupTime || !imageUrl) {
         return res.status(400).json({ message: "Missing required fields" });
@@ -33,16 +37,11 @@ router.post('/donate', async (req, res) => {
             Category: category,
             Quantity: parseInt(quantity),
             ExpirationDate: expirationDateTime,
-            ImageData: imageBuffer
+            ImageData: imageBuffer,
+            Group_Id: group_id
         };
 
-        await create(tableName, fields, {
-            Name: fieldTypeMap.name,
-            Category: fieldTypeMap.category,
-            Quantity: fieldTypeMap.quantity,
-            ExpirationDate: fieldTypeMap.expiration,
-            ImageData: fieldTypeMap.ImageData
-        });
+        await create(tableName, fields, fieldTypeMap);
 
         res.status(200).json({ message: "Food listing saved successfully" });
     } catch (err) {

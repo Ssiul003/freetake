@@ -19,8 +19,12 @@ router.post('/login', async (req, res) => {
 
         const hashAttempt = crypto.pbkdf2Sync(password, user.Salt, 100000, 64, 'sha256').toString('hex');
         if (hashAttempt === user.Hashedpassword) {
-            const token = jwt.sign(
-                { id: user.id, username: user.username },
+            const token = jwt.sign({ 
+                id: user.id, 
+                username: user.username,
+                email: user.email,
+                group_id: user.group_id
+            },
                 process.env.SECRET_KEY,
                 { expiresIn: '1h' }
             );
