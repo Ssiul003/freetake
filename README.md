@@ -11,6 +11,7 @@ Prototype (Figma) - https://www.figma.com/proto/4vDnVVMIQM2zmOx7xYh4fB/FreeTake?
 Slide Deck - https://docs.google.com/presentation/d/1TVH_cwgSJ0sowNZ3XVproCnAf_kNGl0ly-taYFDiGbM/edit?usp=sharing
 
 Roles
+
 Vincent Chen – Lead Designer & Front-End Support Developer
 
 Yalun Lin - Front-End Developer
