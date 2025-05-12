@@ -8,6 +8,8 @@ Website Preview - https://ssiul003.github.io/freetake/
 
 Prototype (Figma) - https://www.figma.com/proto/4vDnVVMIQM2zmOx7xYh4fB/FreeTake?node-id=68-2&p=f&t=4SVKXkHTrA7lrhJc-1&scaling=scale-down&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=68%3A2
 
+Slide Deck - https://docs.google.com/presentation/d/1TVH_cwgSJ0sowNZ3XVproCnAf_kNGl0ly-taYFDiGbM/edit?usp=sharing
+
 Roles
 Vincent Chen – Lead Designer & Front-End Support Developer
 
