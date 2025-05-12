@@ -2,7 +2,7 @@
 
 A community-driven website designed to connect Food Donors with Food Recipients. The platform facilitates seamless interactions between both parties. This enables food donations and supports access to essential resources, thereby contributing to a positive impact on the community. Our goal is to develop a fully functional website that enables users to easily donate and claim food for free, fostering a community-driven solution to food insecurity.
 
-The site was originally hosted on Azure, but due to issues, it's now shown on GitHub Pages. This means backend features like the Donate page won't work here. To see the full site, download the files, run npm install, then npm start on your computer.
+The site is now hosted on GitHub Pages and works as a front-end only, so back-end features like the Donate page won’t work. It was originally on Azure, but due to issues, we had to move. To use the full site with back-end, download the files, run npm install, then npm start on your computer.
 
 Website Preview - TBA
 
