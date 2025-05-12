@@ -10,8 +10,11 @@ Prototype (Figma) - https://www.figma.com/proto/4vDnVVMIQM2zmOx7xYh4fB/FreeTake?
 
 Roles
 Vincent Chen – Lead Designer & Front-End Support Developer
+
 Yalun Lin - Front-End Developer
+
 Luis Hung - Lead Front-End Developer & Back-End Support
+
 Jorge Padilla - Lead Back-End Developer
 
 # Getting Started with Create React App
