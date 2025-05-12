@@ -2,7 +2,7 @@
 
 A community-driven website designed to connect Food Donors with Food Recipients. The platform facilitates seamless interactions between both parties. This enables food donations and supports access to essential resources, thereby contributing to a positive impact on the community. Our goal is to develop a fully functional website that enables users to easily donate and claim food for free, fostering a community-driven solution to food insecurity.
 
-Front-end view of our website page - TBA
+Live Website Preview - TBA
 
 # Getting Started with Create React App
 
