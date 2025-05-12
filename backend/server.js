@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors'
+import cookieParser from 'cookie-parser';
 
 import userReq from './crud/user.js'
 import groupReq from './crud/group.js'
@@ -48,7 +49,7 @@ const config = {
 let pool = null;
 const app = express();
 app.use(bodyParser.json());
-
+app.use(cookieParser()); 
 /*
 This is for easier testing on localhost.
 Run the backend first (localhost:3000)

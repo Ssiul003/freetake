@@ -19,7 +19,8 @@ const fieldTypeMap = {
 
 router.post('/donate', authenticate, async (req, res) => {
     const { name, category, quantity, expiration, pickupTime, imageUrl } = req.body;
-    const group_id = req.user.id;
+    const group_id = req.user.group_id;
+    console.log("Authenticated user:", req.user);
     if(!group_id) return res.status(400).json({ message: "Cannot make a listing. Please log in." });
 
     if (!name || !category || !quantity || !expiration || !pickupTime || !imageUrl) {

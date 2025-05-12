@@ -43,7 +43,6 @@ const Donate = () => {
 
     const donationData = {
       name: foodName,
-      groupId:1,
       category: cuisine,
       quantity: quantity,
       expiration: expirationDate,
@@ -66,6 +65,7 @@ const Donate = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify(donationData),
       });
 

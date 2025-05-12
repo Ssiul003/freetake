@@ -32,9 +32,14 @@ router.post('/user/new', async (req, res) => {
       - Email is legitiment (Maybe an external dependency to check this?)
       - Hashing (To not send unencrypted data)
 */
-    const { username, email, password, firstName, lastName, address } = req.body;
 
-    if (!username || !email || !password || !firstName || !lastName || !address)
+/*
+Group_ID here is total ad-hoc, supposed to join a group to make a listing
+However, it's clear that it's outside the scope of this
+*/
+    const { username, email, password, firstName, lastName, address, group_id } = req.body;
+    console.log(req.body);
+    if (!username || !email || !password || !firstName || !lastName || !address || !group_id)
         return res.status(400).json({ message: 'Missing required fields' });
   console.log('Request body:', req.body);
     try {
@@ -56,7 +61,7 @@ router.post('/user/new', async (req, res) => {
           firstName,
           lastName,
           address,
-          group_id: null, // User creates an account without a group
+          group_id
         };
         create(tableName, fields, fieldTypeMap);
 

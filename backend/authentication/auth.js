@@ -6,6 +6,7 @@ export function authenticate(req, res, next) {
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) return res.status(403).json({ message: 'Invalid or expired token.' });
+    console.log("Decoded user:", user);
     req.user = user;
     next();
   });

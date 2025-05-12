@@ -52,7 +52,7 @@ export default function SignupForm(
 				/>
 				<CustomField
 					label="Group ID"
-					name="groupId"
+					name="group_id"
 					type="number"
 					placeholder="Enter Group ID"
 					errorMessage="Group ID must be a number"

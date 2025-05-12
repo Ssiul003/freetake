@@ -25,9 +25,8 @@ router.post('/login', async (req, res) => {
                 email: user.email,
                 group_id: user.group_id
             },
-                process.env.SECRET_KEY,
-                { expiresIn: '1h' }
-            );
+                process.env.SECRET_KEY, { expiresIn: '1h' });
+                console.log(user)
             return res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',

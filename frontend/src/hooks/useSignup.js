@@ -70,6 +70,7 @@ export const useSignupStates = () => {
 					username: formInput.username,
 					email: formInput.email,
 					password: formInput.password,
+					group_id: formInput.group_id,
 					firstName: formInput.firstName,
 					lastName: formInput.lastName,
 					address: formInput.address

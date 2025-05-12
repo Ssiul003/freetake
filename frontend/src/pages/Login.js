@@ -20,7 +20,7 @@ const Login = () => {
 
 	const handlePasswordReset = (e) => {
 		e.preventDefault();
-		alert('Password reset link sent to your email');
+		alert('Password reset link sent to your email (Not actually)');
 	};
 
 	
@@ -31,7 +31,7 @@ const Login = () => {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				credentials: 'include', // allows sending/receiving cookies
+				credentials: 'include', // allows sending/receiving cookies :(
 				body: JSON.stringify({ email, password })
 			});
 
