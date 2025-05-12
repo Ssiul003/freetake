@@ -5,6 +5,7 @@ A community-driven website designed to connect Food Donors with Food Recipients.
 The site is now hosted on GitHub Pages and works as a front-end only, so back-end features like the Donate page won’t work. It was originally on Azure, but due to issues, we had to move. To use the full site with back-end, download the files, run npm install, then npm start on your computer.
 
 Website Preview - https://ssiul003.github.io/freetake/
+Prototype (Figma) - https://www.figma.com/proto/4vDnVVMIQM2zmOx7xYh4fB/FreeTake?node-id=68-2&p=f&t=4SVKXkHTrA7lrhJc-1&scaling=scale-down&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=68%3A2
 
 # Getting Started with Create React App
 
