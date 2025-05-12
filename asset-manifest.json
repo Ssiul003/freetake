@@ -1,22 +1,31 @@
 {
   "files": {
-    "main.css": "/freetake/static/css/main.ea04e30d.css",
-    "main.js": "/freetake/static/js/main.78e13c2f.js",
+    "main.css": "/freetake/static/css/main.39ebfa54.css",
+    "main.js": "/freetake/static/js/main.c995ed6e.js",
     "static/media/grabsomefreefoodhero4.png": "/freetake/static/media/grabsomefreefoodhero4.70923c2e5769450739f0.png",
+    "static/media/leaf6.png": "/freetake/static/media/leaf6.1d51dff02c0af206a7a9.png",
+    "static/media/leaf1.png": "/freetake/static/media/leaf1.c2bb91f2b277957960b7.png",
+    "static/media/leaf7.png": "/freetake/static/media/leaf7.b37f206e889d4b49d2ba.png",
     "static/media/areyouhundryhero1.png": "/freetake/static/media/areyouhundryhero1.2641740c37811509522f.png",
     "static/media/appreciatedonationhero3.png": "/freetake/static/media/appreciatedonationhero3.c61bf80448c60322723e.png",
+    "static/media/leaf5.png": "/freetake/static/media/leaf5.d4d10357db6f1b562a3f.png",
+    "static/media/leaf2.png": "/freetake/static/media/leaf2.6462baa750741ea62636.png",
+    "static/media/leaf3.png": "/freetake/static/media/leaf3.f4acccac61d3fe8c8e5c.png",
+    "static/media/leaf4.png": "/freetake/static/media/leaf4.4b603286633e65791927.png",
+    "static/media/leaf8.png": "/freetake/static/media/leaf8.4d95299faa9d3d6f6d4a.png",
     "static/media/howmuchfoodwasted.jpg": "/freetake/static/media/howmuchfoodwasted.1d986fe34032f7421e1f.jpg",
     "static/media/whyfoodiswasted.jpg": "/freetake/static/media/whyfoodiswasted.9443b324a097a23e5c77.jpg",
+    "static/media/logo.svg": "/freetake/static/media/logo.96a6edbab6986f86123cdd4b22ea6e71.svg",
     "static/media/slick.svg": "/freetake/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/freetake/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/freetake/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/freetake/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/freetake/index.html",
-    "main.ea04e30d.css.map": "/freetake/static/css/main.ea04e30d.css.map",
-    "main.78e13c2f.js.map": "/freetake/static/js/main.78e13c2f.js.map"
+    "main.39ebfa54.css.map": "/freetake/static/css/main.39ebfa54.css.map",
+    "main.c995ed6e.js.map": "/freetake/static/js/main.c995ed6e.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea04e30d.css",
-    "static/js/main.78e13c2f.js"
+    "static/css/main.39ebfa54.css",
+    "static/js/main.c995ed6e.js"
   ]
 }
