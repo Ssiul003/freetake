@@ -8,6 +8,12 @@ Website Preview - https://ssiul003.github.io/freetake/
 
 Prototype (Figma) - https://www.figma.com/proto/4vDnVVMIQM2zmOx7xYh4fB/FreeTake?node-id=68-2&p=f&t=4SVKXkHTrA7lrhJc-1&scaling=scale-down&content-scaling=fixed&page-id=1%3A3&starting-point-node-id=68%3A2
 
+Roles
+Vincent Chen – Lead Designer & Front-End Support Developer
+Yalun Lin - Front-End Developer
+Luis Hung - Lead Front-End Developer & Back-End Support
+Jorge Padilla - Lead Back-End Developer
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
